@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>处方录入系统</title>
+  
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <script src="lib/angular.js"></script>
+  <script src="lib/angular-route.js"></script>
+
+  <script type="text/javascript" src="jquery-1.11.0.js"></script>
+</head>
+<body ng-app="inputApp">
+  <h1>处方录入系统</h1>
+  <form name="myForm" ng-controller="Ctrl">
+    <br>
+    <input type="button" name="btn_1" value="保存处方信息" ng-click="savePerson()" /><br><br>
+
+    Number: <input type="number" name="input" ng-model="value" min="0" max="99" style="width:50px" required>
+
+    <input type="button" name="btn_2" value="Add" ng-click="addPerson()" />
+    <div ng-repeat="phone in phones " >
+      {{phone.name}}
+    </div>    
+  </form>
+
+<script type="text/javascript">
+  var inputApp = angular.module('inputApp', []);
+
+  function Ctrl($scope) {
+    $scope.value = 12;
+    $scope.phones = [{"name":"aaa","sex":"male"},{"name":"bbb"},{"name":"ccc"}];
+
+    
+    //alert(aStr);
+
+    $scope.addPerson = function() {
+        $scope.phones.push({"name":"ddd"});
+    };
+
+    $scope.savePerson = function() {
+      fs = require('fs');
+      var aStr = JSON.stringify($scope.phones);
+      // Write a file:
+      fs.writeFileSync('data/case.txt', aStr);
+      
+    };
+  }
+  
+  $(document).ready(
+    function() {
+      $('#btn_1').click(function(){ 
+        //  alert(""); 
+        saveFile();
+      });
+      
+  });
+  
+
+  </script>
+</body>
+</html>
+
+
+
+

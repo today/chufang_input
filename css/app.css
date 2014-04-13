@@ -1,0 +1,86 @@
+/* app css stylesheet */
+
+body {
+  padding-top: 10px;padding-left:30px; 
+}
+
+.phones {
+  list-style: none;
+}
+
+.thumb {
+  float: left;
+  margin: -1em 1em 1em 0em;
+  padding-bottom: 1em;
+  height: 100px;
+  width: 100px;
+}
+
+.phones li {
+  clear: both;
+  height: 100px;
+  padding-top: 10px;
+}
+
+/** Detail View **/
+.phone {
+  float: left;
+  border: 1px solid black;
+  margin-right: 1em;
+  margin-bottom: 1em;
+  background-color: white;
+  padding: 1em;
+  height: 700px;
+  width: 600px;
+}
+
+.phone-thumbs {
+  
+  margin: 0;
+  list-style: none;
+}
+
+.phone-thumbs li {
+  
+  border: 1px solid black;
+  display: inline-block;
+  margin: 1em;
+  background-color: white;
+}
+
+.phone-thumbs img {
+  height: 100px;
+  width: 100px;
+  padding: 1em;
+}
+
+.phone-thumbs img:hover {
+  cursor: pointer;
+}
+
+
+ul.specs {
+  clear: both;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+ul.specs > li{
+  display: inline-block;
+  width: 200px;
+  vertical-align: top;
+}
+
+ul.specs > li > span{
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+ul.specs dt {
+  font-weight: bold;
+}
+
+h1 {
+  border-bottom: 1px solid gray;
+}
