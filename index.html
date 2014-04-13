@@ -2,24 +2,58 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>处方录入系统</title>
+  <title>门诊处方录入系统</title>
   
   <link rel="stylesheet" href="css/app.css">
   <link rel="stylesheet" href="css/bootstrap.css">
-  <script src="lib/angular.js"></script>
-  <script src="lib/angular-route.js"></script>
-
-  <script type="text/javascript" src="jquery-1.11.0.js"></script>
+  <script type="text/javascript" src="lib/angular.js"></script>
+  <script type="text/javascript" src="lib/angular-route.js"></script>
+  <script type="text/javascript" src="lib/jquery-1.11.0.js"></script>
 </head>
 <body ng-app="inputApp">
-  <h1>处方录入系统</h1>
   <form name="myForm" ng-controller="Ctrl">
+    <h1 style="">门诊处方录入系统</h1> 
     <br>
-    <input type="button" name="btn_1" value="保存处方信息" ng-click="savePerson()" /><br><br>
+               <input  type="hidden"  name="patients.patients_id"  ng-model="patients.patients_id" style="width:100px" required/>
+      姓名:     <input  type="text" name="patients.name"          ng-model="patients.name"        style="width:60px"  required/> 
+      性别:     <input  type="text" name="patients.sex"           ng-model="patients.sex"         style="width:20px"  required/>
+      年龄:     <input  type="text" name="patients.age"           ng-model="patients.age"         style="width:30px"  required/>
+      电话:     <input  type="text" name="patients.phone_no"      ng-model="patients.phone_no"    style="width:100px" required/>
+      <br/>
+      备注:     <textarea   name="patients.comment"      ng-model="patients.comment"       ></textarea>
+      <br/>
+      <input type="button" name="btn_1" value=" 保存患者信息 " ng-click="savePerson()"  />
+      <hr/>
+      
+      门诊号:   <input  type="text"  name="case_id"  ng-model="case.case_id" style="width:100px" required/>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      这是第
+      <input  type="text"  name="case.counts"  ng-model="case.counts"  required style="width:40px" />  次就诊
+      &nbsp;&nbsp;<input  type="button" name="btn_plus" value="+"  /><br/>
 
-    Number: <input type="number" name="input" ng-model="value" min="0" max="99" style="width:50px" required>
+      定性:     <input  type="text" name="dingxing"         ng-model="case.dingxing"         required/><br/>
+      定病:     <input  type="text" name="dingbing"         ng-model="case.dingbing"         required/><br/>
+      定症:     <input  type="text" name="dingzheng"        ng-model="case.dingzheng"        required/><br/>
+      备注:     <textarea   name="case.comment"      ng-model="case.comment"       ></textarea>
+      <br/>
+      <span>处方：</span>
+      <table border="1">
+        <tr>
+          <td>药名</td><td>用量</td><td>单位</td><td>备注</td>
+          <td>
+            <input type="button" name="btn_3" value="再加10行" ng-click="addPerson()" />
+          </td></tr>  
+        <tr>
+        </td><td><input  type="text"  name="medicine"   ng-model="recipe.medicine"     required style="width:60px" />
+        </td><td><input  type="number"  name="count"    ng-model="recipe.count"        min="0" max="200" required style="width:40px"  />
+        </td><td><select ng-model="zhongyaounit" ng-options="opt as opt.label for opt in zhongyaounits" style="width:60px"></select>
+        </td><td><input  type="text" name="remark"      ng-model="recipe.remark"      required style="width:80px"/>
+        </td><td><input  type="button" name="btn_x" value="X"  />
+        </td>
+        </tr>
+      </table>
+      <input type="button" name="btn_2" value=" 保存处方信息 " ng-click="savePerson()"  />
 
-    <input type="button" name="btn_2" value="Add" ng-click="addPerson()" />
     <div ng-repeat="phone in phones " >
       {{phone.name}}
     </div>    
@@ -30,7 +64,8 @@
 
   function Ctrl($scope) {
     $scope.value = 12;
-    $scope.phones = [{"name":"aaa","sex":"male"},{"name":"bbb"},{"name":"ccc"}];
+    $scope.patients = {"patients_id":"00001","name":"罗辑","sex":"男","age":"","phone_no":"18990000001","comment":"123456 abcdef"};
+    $scope.case = {"case_id":"00001","counts":"4","dingxing":"寒","dingbing":"寒症","dingzheng":"冷","comment":"987654 xyzabc"};
 
     
     //alert(aStr);
