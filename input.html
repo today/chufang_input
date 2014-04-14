@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>门诊处方录入系统</title>
+  <title>门诊处方系统 处方录入</title>
   
   <link rel="stylesheet" href="css/app.css">
   <link rel="stylesheet" href="css/bootstrap.css">
@@ -12,8 +12,9 @@
 </head>
 <body ng-app="inputApp">
   <form name="myForm" ng-controller="Ctrl">
-    <h1 style="">门诊处方录入系统</h1> 
+    <h1 style="">门诊处方系统 处方录入<a href="index.html" style="float:right">返回首页</a></h1> 
     <br>
+    <div sytle="float:left">
                <input  type="hidden"  name="patients.patients_id"  ng-model="patients.patients_id" style="width:100px" required/>
       姓名:     <input  type="text" name="patients.name"          ng-model="patients.name"        style="width:60px"  required/> 
       性别:     <input  type="text" name="patients.sex"           ng-model="patients.sex"         style="width:20px"  required/>
@@ -53,25 +54,28 @@
         </tr>
       </table>
       <input type="button" name="btn_2" value=" 保存处方信息 " ng-click="savePerson()"  />
-
-    <div ng-repeat="phone in phones " >
-      {{phone.name}}
-    </div>    
+    </div>
+    <span ng-repeat="item in items " >
+      {{item.name}}
+    </span>    
   </form>
 
 <script type="text/javascript">
   var inputApp = angular.module('inputApp', []);
 
   function Ctrl($scope) {
+    $scope.new_photos = [];
+
+
     $scope.value = 12;
     $scope.patients = {"patients_id":"00001","name":"罗辑","sex":"男","age":"","phone_no":"18990000001","comment":"123456 abcdef"};
     $scope.case = {"case_id":"00001","counts":"4","dingxing":"寒","dingbing":"寒症","dingzheng":"冷","comment":"987654 xyzabc"};
 
-    
+    $scope.items = [{"name":"aaa"}]
     //alert(aStr);
 
     $scope.addPerson = function() {
-        $scope.phones.push({"name":"ddd"});
+        $scope.items.push({"name":"ddd"});
     };
 
     $scope.savePerson = function() {
@@ -82,15 +86,6 @@
       
     };
   }
-  
-  $(document).ready(
-    function() {
-      $('#btn_1').click(function(){ 
-        //  alert(""); 
-        saveFile();
-      });
-      
-  });
   
 
   </script>
