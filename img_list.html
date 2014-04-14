@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>门诊处方系统</title>
+  
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <script type="text/javascript" src="lib/angular.js"></script>
+  <script type="text/javascript" src="lib/angular-route.js"></script>
+  <script type="text/javascript" src="lib/jquery-1.11.0.js"></script>
+</head>
+<body ng-app="imglistApp">
+  <form name="myForm" ng-controller="Ctrl">
+    <h1 style="">门诊处方系统 照片筛选</h1> 
+    <br><br><br>
+    <span ng-repeat="name in filenames " >{{name}}<br></span>
+
+     
+      
+  </form>
+
+<script type="text/javascript">
+  var fs = require('fs');
+
+  var imglistApp = angular.module('imglistApp', []);
+
+  function Ctrl($scope) {
+    $scope.value = 12;
+
+    var res = [] ;
+    var files = fs.readdirSync("./new_photos");
+
+    $scope.filenames = files;
+       
+
+    
+  }
+  </script>
+</body>
+</html>
+
+
+
+
