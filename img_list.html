@@ -16,20 +16,31 @@
     <h2>病历录入 第一步 选择患者</h2>
     <br>
     <h3>
-      <input type="radio" ng-model="new_or_old" value="old">复诊    &nbsp;&nbsp;&nbsp;&nbsp;
-      <input type="radio" ng-model="new_or_old" value="new">初次就诊
+      <span ng-click="triggle_old()">
+        <input name="new_or_old" type="radio" ng-model="new_or_old"  value="old">
+        复诊    &nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <span ng-click="triggle_new()">
+        <input name="new_or_old" type="radio" ng-model="new_or_old" value="new">初次就诊</span>
     </h3>
     <br>
     <h3>请选择患者照片</h3>
     <br>
+    <div id="new_patient_photos" ng-hide="show_new" >
+      <span ng-repeat="name in new_filenames " >
+        <img src="new_photos/{{name}}" width="160" height="120" style="float:top;" />
+        <input type="radio" name="new_patient" ng-model="new_patient" value="{{name}}"  >{{name}} 
+      </span>
+    </div>
 
-    <span ng-repeat="name in filenames " >
-      <img src="new_photos/{{name}}" width="160" height="120" style="float:top;" />
-      <input type="radio" name="new_patient" ng-model="new_patient" value="{{name}}"  >{{name}} 
-    </span>
+    <div id="old_patient_photos" ng-hide="show_old" >
+      <span ng-repeat="patient in patient_infos " >
+        <img src="img/{{patient.head_photoes}}" width="160" height="120" style="float:top;" />
+        <input type="radio" name="old_patient" ng-model="old_patient" value="{{patient.patient_id}}"  >{{patient.name}} 
+      </span>
+    </div>
 
     <div> 
-      <li ng-repeat="img in selected_images">{{name}} </li>
+      <li ng-repeat="img in selected_images" >{{name}} </li>
     </div>
 
     <br><br> 
@@ -43,19 +54,53 @@
   </form>
 
 <script type="text/javascript">
-  var fs = require('fs');
+var fs = require('fs');
+var path = require('path');
 
-  var imglistApp = angular.module('imglistApp', []);
+var imglistApp = angular.module('imglistApp', []);
 
-  function Ctrl($scope) {
-    $scope.value = 12;
-    $scope.new_or_old = "old";
-    $scope.new_patient = "";
+function Ctrl($scope) {
+  $scope.value = 12;
+  $scope.new_or_old = "old";
+  $scope.new_patient = "";
+  $scope.show_new = true;
+  $scope.show_old = false;
 
-    // 读入目录下全部文件，这个目录放全部 第一次就诊的患者的图片。
+    // 第一次就诊的患者的图片：读入目录下全部文件，这个目录放全部 。
     var files = fs.readdirSync("./new_photos");
-    $scope.filenames = files;
+    var imgFiles = [];
+    // 筛选出 jpg 文件
+    files.forEach(function(fileName, index) {
+      if( ".jpg" === path.extname(fileName) ){
+        imgFiles.push(fileName);
+      }
+      //console.log( path.extname(fileName) );
+    });
+    $scope.new_filenames = imgFiles;
 
+    // 复诊的患者的资料：读入json文件 。
+    var patients_txt = fs.readFileSync("./data/patients.json");
+    patients_json = JSON.parse(patients_txt);
+    // 筛选出 复诊患者
+    var patients_temp = [];
+    patients_json.forEach(function(patient, index) {
+      if( "n" === patient.flag_is_blank ){
+        patients_temp.push(patient);
+      }
+      //console.log( patient.patient_id );
+    });
+    $scope.patient_infos = patients_temp;
+
+    $scope.triggle_new = function(){
+      $scope.new_or_old = "new";
+      $scope.show_new = false;
+      $scope.show_old = true;
+    };
+    $scope.triggle_old = function(){
+      $scope.new_or_old = "old";
+      $scope.show_new = true;
+      $scope.show_old = false;
+    };
 
 
     $scope.testA = function() {
@@ -64,8 +109,6 @@
       console.log( JSON.stringify($scope.new_patient) );
     };
   }
-
-
 
 
   </script>
