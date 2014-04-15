@@ -12,12 +12,34 @@
 </head>
 <body ng-app="imglistApp">
   <form name="myForm" ng-controller="Ctrl">
-    <h1 style="">门诊处方系统 照片筛选</h1> 
-    <br><br><br>
-    <span ng-repeat="name in filenames " >{{name}}<br></span>
+    <h1>门诊处方系统 </h1> 
+    <h2>病历录入 第一步 选择患者</h2>
+    <br>
+    <h3>
+      <input type="radio" ng-model="new_or_old" value="old">复诊    &nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="radio" ng-model="new_or_old" value="new">初次就诊
+    </h3>
+    <br>
+    <h3>请选择患者照片</h3>
+    <br>
 
-     
-      
+    <span ng-repeat="name in filenames " >
+      <img src="new_photos/{{name}}" width="160" height="120" style="float:top;" />
+      <input type="radio" name="new_patient" ng-model="new_patient" value="{{name}}"  >{{name}} 
+    </span>
+
+    <div> 
+      <li ng-repeat="img in selected_images">{{name}} </li>
+    </div>
+
+    <br><br> 
+    <h2 style="float:right;">
+      <a href="input.html">下一步</a>
+    </h2>
+
+    <h2 style="float:left;">
+      <a href="#" ng-click="testA()" >测试按钮，上线前须删除</a>
+    </h2>
   </form>
 
 <script type="text/javascript">
@@ -27,15 +49,25 @@
 
   function Ctrl($scope) {
     $scope.value = 12;
+    $scope.new_or_old = "old";
+    $scope.new_patient = "";
 
-    var res = [] ;
+    // 读入目录下全部文件，这个目录放全部 第一次就诊的患者的图片。
     var files = fs.readdirSync("./new_photos");
-
     $scope.filenames = files;
-       
 
-    
+
+
+    $scope.testA = function() {
+      console.log( JSON.stringify($scope.new_or_old) );
+
+      console.log( JSON.stringify($scope.new_patient) );
+    };
   }
+
+
+
+
   </script>
 </body>
 </html>
