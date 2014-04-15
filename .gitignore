@@ -1,8 +1,9 @@
 # Project
-lib
-node-webkit.app
+data
 img
+lib
 new_photos
+node-webkit.app
 
 # Logs
 logs
