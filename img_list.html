@@ -26,14 +26,14 @@
     <h3>请选择患者照片</h3>
     <br>
     <div id="new_patient_photos" ng-hide="show_new" >
-      <span ng-repeat="name in new_filenames " >
+      <span ng-repeat="name in new_filenames " ng-click="setPhotoName(name)">
         <img src="new_photos/{{name}}" width="160" height="120" style="float:top;" />
         <input type="radio" name="new_patient" ng-model="new_patient" value="{{name}}"  >{{name}} 
       </span>
     </div>
 
     <div id="old_patient_photos" ng-hide="show_old" >
-      <span ng-repeat="patient in patient_infos " >
+      <span ng-repeat="patient in patient_infos " ng-click="setPatientId(patient)" >
         <img src="img/{{patient.head_photoes}}" width="160" height="120" style="float:top;" />
         <input type="radio" name="old_patient" ng-model="old_patient" value="{{patient.patient_id}}"  >{{patient.name}} 
       </span>
@@ -44,11 +44,12 @@
     </div>
 
     <br><br> 
-    <h2 style="float:right;">
-      <a href="input.html">下一步</a>
+    <h2 style="float:right;" ng-hide="show_next">
+      <a href="#" ng-click="goInput()" >下一步</a>
     </h2>
 
-    <h2 style="float:left;">
+    <br><br><br><br><br>
+    <h2 style="float:left;" >
       <a href="#" ng-click="testA()" >测试按钮，上线前须删除</a>
     </h2>
   </form>
@@ -65,53 +66,85 @@ function Ctrl($scope) {
   $scope.new_patient = "";
   $scope.show_new = true;
   $scope.show_old = false;
+  $scope.show_next = true;
 
-    // 第一次就诊的患者的图片：读入目录下全部文件，这个目录放全部 。
-    var files = fs.readdirSync("./new_photos");
-    var imgFiles = [];
-    // 筛选出 jpg 文件
-    files.forEach(function(fileName, index) {
-      if( ".jpg" === path.extname(fileName) ){
-        imgFiles.push(fileName);
-      }
-      //console.log( path.extname(fileName) );
-    });
-    $scope.new_filenames = imgFiles;
+  // 第一次就诊的患者的图片：读入目录下全部文件，这个目录放全部 。
+  var files = fs.readdirSync("./new_photos");
+  var imgFiles = [];
+  // 筛选出 jpg 文件
+  files.forEach(function(fileName, index) {
+    if( ".jpg" === path.extname(fileName) ){
+      imgFiles.push(fileName);
+    }
+    //console.log( path.extname(fileName) );
+  });
+  $scope.new_filenames = imgFiles;
 
-    // 复诊的患者的资料：读入json文件 。
-    var patients_txt = fs.readFileSync("./data/patients.json");
-    patients_json = JSON.parse(patients_txt);
-    // 筛选出 复诊患者
-    var patients_temp = [];
-    patients_json.forEach(function(patient, index) {
-      if( "n" === patient.flag_is_blank ){
-        patients_temp.push(patient);
-      }
-      //console.log( patient.patient_id );
-    });
-    $scope.patient_infos = patients_temp;
+  // 复诊的患者的资料：读入json文件 。
+  var patients_txt = fs.readFileSync("./data/patients.json");
+  patients_json = JSON.parse(patients_txt);
+  // 筛选出 复诊患者
+  var patients_temp = [];
+  patients_json.forEach(function(patient, index) {
+    if( "n" === patient.flag_is_blank ){
+      patients_temp.push(patient);
+    }
+    //console.log( patient.patient_id );
+  });
+  $scope.patient_infos = patients_temp;
 
-    $scope.triggle_new = function(){
-      $scope.new_or_old = "new";
-      $scope.show_new = false;
-      $scope.show_old = true;
-    };
-    $scope.triggle_old = function(){
-      $scope.new_or_old = "old";
-      $scope.show_new = true;
-      $scope.show_old = false;
-    };
+  $scope.triggle_new = function(){
+    $scope.new_or_old = "new";
+    $scope.show_new = false;
+    $scope.show_old = true;
+    $scope.show_next = true;
+  };
+  $scope.triggle_old = function(){
+    $scope.new_or_old = "old";
+    $scope.show_new = true;
+    $scope.show_old = false;
+    $scope.show_next = true;
+  };
 
+  $scope.setPatientId = function( patient ){
+    $scope.old_patient = patient.patient_id;
+    $scope.show_next = false;
+  };
 
-    $scope.testA = function() {
-      console.log( JSON.stringify($scope.new_or_old) );
+  $scope.setPhotoName = function( imgname ){
+    $scope.new_patient = imgname;
+    $scope.show_next = false;
+  };
 
-      console.log( JSON.stringify($scope.new_patient) );
-    };
-  }
+  $scope.goInput = function(){
+    // 先判断是复诊还是新患者
+    if( 'new' === $scope.new_or_old ){
+      // 新患者，先分配ID
 
+      // 然后将图片文件名传给下一个画面
+      
+    }
+    else if ('old' === $scope.new_or_old ){
+      // 将id传给下一个画面
+      redirectTo: 'input.html';
+      
+    }
+    else{
+      console.log( "Error!" );
+      console.log( $scope.old_patient );
+    }
+    
+    window.location.href = "input.html";
+  };
+  
+  $scope.testA = function() {
+    console.log( JSON.stringify($scope.new_or_old) );
 
-  </script>
+    console.log( JSON.stringify($scope.new_patient) );
+  };
+}
+
+</script>
 </body>
 </html>
 
