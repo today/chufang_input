@@ -1,5 +1,5 @@
 {
-  "name": "处方录入系统",
+  "name": "FuRunTang",
   "main": "index.html",
   "description": "中医门诊处方录入系统",
   "version": "0.1.0",
@@ -14,7 +14,7 @@
     "position": "center",
     "resizable": true,
     "width": 800,
-    "height": 600
+    "height": 700
   },
   "dependencies": {
     "underscore": "~1.4.4"

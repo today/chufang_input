@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>门诊处方系统 处方录入</title>
+  <title>福润堂 处方录入</title>
   
   <link rel="stylesheet" href="css/app.css">
   <link rel="stylesheet" href="css/bootstrap.css">
@@ -12,7 +12,7 @@
 </head>
 <body ng-app="inputApp">
   <form name="myForm" ng-controller="Ctrl">
-    <h1 style="">门诊处方系统 处方录入<a href="index.html" style="float:right">返回首页</a></h1> 
+    <h1 style="">福润堂 处方录入<a href="index.html" style="float:right">返回首页</a></h1> 
     <br>
     <div sytle="float:left">
                <input  type="hidden"  name="patients.patients_id"  ng-model="patients.patients_id" style="width:100px" required/>
@@ -61,11 +61,19 @@
   </form>
 
 <script type="text/javascript">
-  var inputApp = angular.module('inputApp', []);
 
-  function Ctrl($scope) {
+
+  var inputApp = angular.module('inputApp', ['ngRoute']);
+  
+
+  function Ctrl($scope, $routeParams) {
+
+    console.log("XXXXXXX: " + JSON.stringify($routeParams) );
+    $scope.patient_id = $routeParams.patient_id;
+    console.log("XXXXXXX: " + $routeParams.patient_id );
+
+
     $scope.new_photos = [];
-
 
     $scope.value = 12;
     $scope.patients = {"patients_id":"00001","name":"罗辑","sex":"男","age":"","phone_no":"18990000001","comment":"123456 abcdef"};
