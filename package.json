@@ -1,12 +1,12 @@
 {
-  "name": "处方录入系统",
+  "name": "FuRunTang",
   "main": "index.html",
-  "description": "中医门诊处方录入系统",
+  "description": "福润堂处方系统",
   "version": "0.1.0",
   "keywords": [ "中医","门诊","处方","录入", "node-webkit" ],
 
   "window": {
-  	"title": "处方录入系统",
+  	"title": "福润堂",
   	"icon": "icon.png",
     "toolbar": true,
     "frame": true,
