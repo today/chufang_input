@@ -41,24 +41,23 @@
       <table border="1">
         <tr>
           <td></td><td>药名</td><td>用量</td><td>单位</td><td>备注</td>
-          <td>
-            <input type="button" name="btn_3" value="再加10行" ng-click="addRecipeItem()" />
-          </td></tr>  
+        </tr>  
 
         <tr ng-repeat="obj in recipe  track by $id(obj)">
-          <td>{{obj.index_id}}</td>
-          <td><input  type="text"     ng-model="obj.medicine"     required style="width:60px" />
+          <td>&nbsp; {{obj.index_id}} &nbsp; </td>
+          <td><input  type="text"     ng-model="obj.medicine"     required style="width:100px" />
           </td>
           <td><input  type="number"   ng-model="obj.count"        required style="width:40px"  />
           </td><td>
-            <select ng-model="obj.unit" ng-options="opt.v as opt.name for opt in zhongyaounits" style="width:60px"></select>
-          </td><td><input  type="text"     ng-model="obj.remark"      required style="width:80px"/>
-          </td><td><input  type="button" name="btn_x" value="X"  />
+            <select ng-model="obj.unit" ng-options="opt.v as opt.name for opt in zhongyaounits" style="width:100px"></select>
+          </td><td><input  type="text"     ng-model="obj.remark"      required style="width:120px"/>
           </td>
         </tr>
 
       </table>
+      
       <input type="button" name="btn_2" value=" 保存处方信息 " ng-click="saveXXXXX()"  />
+      <input type="button" name="btn_3" value="再加10行" ng-click="addRecipeItem(10)" />
 
       <input type="button" name="btn_2" value=" 测试 " ng-click="test001()"  />
     </div>
@@ -78,22 +77,22 @@
     $scope.patients = {"patients_id":"00001","name":"罗辑","sex":"男","age":"","phone_no":"18990000001","comment":"123456 abcdef"};
     $scope.case = {"case_id":"00001","counts":"4","dingxing":"寒","dingbing":"寒症","dingzheng":"冷","comment":"987654 xyzabc"};
 
-    blank_recipe = {medicine:"白术",count:"10",unit:{name:"克",v:"ke"},remark:"ABC"  };
     $scope.recipe = [];
-    for(i=1;i<21;i++){
-      tempObj=new Object();
-      tempObj.index_id=i;
-      tempObj.medicine="白术";
-      tempObj.count=10;
-      tempObj.unit={name:"克",v:1};
-      tempObj.remark="ABC";
+    $scope.addRecipeItem = function( lineNum ){
+      for(i=1;i<(lineNum+1);i++){
+        tempObj=new Object();
+        tempObj.index_id=i;
+        tempObj.medicine="";
+        tempObj.count=0;
+        tempObj.unit={name:"克",v:"ke"};
+        tempObj.remark="";
 
-      $scope.recipe.push(tempObj);
+        $scope.recipe.push(tempObj);
+      }
     }
+    $scope.addRecipeItem(10);
     
-    
-
-    $scope.zhongyaounits = [{name:"克",v:1},{name:"瓶",v:"ping"},{name:"盒",v:"he"},{name:"包",v:"bao"},{name:"付",v:"fu"}]
+    $scope.zhongyaounits = [{name:"克",v:"ke"},{name:"瓶",v:"ping"},{name:"盒",v:"he"},{name:"包",v:"bao"},{name:"付",v:"fu"}]
     
 
     $scope.addPerson = function() {
