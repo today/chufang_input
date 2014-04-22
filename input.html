@@ -40,24 +40,33 @@
       <span>处方：</span>
       <table border="1">
         <tr>
-          <td>药名</td><td>用量</td><td>单位</td><td>备注</td>
+          <td></td><td>药名</td><td>用量</td><td>单位</td><td>备注</td>
           <td>
-            <input type="button" name="btn_3" value="再加10行" ng-click="addPerson()" />
+            <input type="button" name="btn_3" value="再加10行" ng-click="addRecipeItem()" />
           </td></tr>  
-        <tr>
-        </td><td><input  type="text"  name="medicine"   ng-model="recipe.medicine"     required style="width:60px" />
-        </td><td><input  type="number"  name="count"    ng-model="recipe.count"        min="0" max="200" required style="width:40px"  />
-        </td><td><select ng-model="zhongyaounit" ng-options="opt as opt.label for opt in zhongyaounits" style="width:60px"></select>
-        </td><td><input  type="text" name="remark"      ng-model="recipe.remark"      required style="width:80px"/>
-        </td><td><input  type="button" name="btn_x" value="X"  />
-        </td>
+
+        <tr ng-repeat="obj in recipe  track by $id(obj)">
+          <td>{{obj.index_id}}</td>
+          <td><input  type="text"     ng-model="obj.medicine"     required style="width:60px" />
+          </td>
+          <td><input  type="number"   ng-model="obj.count"        required style="width:40px"  />
+          </td><td>
+            <select ng-model="obj.unit" ng-options="opt.v as opt.name for opt in zhongyaounits" style="width:60px"></select>
+          </td><td><input  type="text"     ng-model="obj.remark"      required style="width:80px"/>
+          </td><td><input  type="button" name="btn_x" value="X"  />
+          </td>
         </tr>
+
       </table>
-      <input type="button" name="btn_2" value=" 保存处方信息 " ng-click="savePerson()"  />
+      <input type="button" name="btn_2" value=" 保存处方信息 " ng-click="saveXXXXX()"  />
+
+      <input type="button" name="btn_2" value=" 测试 " ng-click="test001()"  />
     </div>
-    <span ng-repeat="item in items " >
-      {{item.name}}
-    </span>    
+        
+  </form>
+
+
+  
   </form>
 
 <script type="text/javascript">
@@ -66,13 +75,26 @@
   function Ctrl($scope) {
     $scope.new_photos = [];
 
-
-    $scope.value = 12;
     $scope.patients = {"patients_id":"00001","name":"罗辑","sex":"男","age":"","phone_no":"18990000001","comment":"123456 abcdef"};
     $scope.case = {"case_id":"00001","counts":"4","dingxing":"寒","dingbing":"寒症","dingzheng":"冷","comment":"987654 xyzabc"};
 
-    $scope.items = [{"name":"aaa"}]
-    //alert(aStr);
+    blank_recipe = {medicine:"白术",count:"10",unit:{name:"克",v:"ke"},remark:"ABC"  };
+    $scope.recipe = [];
+    for(i=1;i<21;i++){
+      tempObj=new Object();
+      tempObj.index_id=i;
+      tempObj.medicine="白术";
+      tempObj.count=10;
+      tempObj.unit={name:"克",v:1};
+      tempObj.remark="ABC";
+
+      $scope.recipe.push(tempObj);
+    }
+    
+    
+
+    $scope.zhongyaounits = [{name:"克",v:1},{name:"瓶",v:"ping"},{name:"盒",v:"he"},{name:"包",v:"bao"},{name:"付",v:"fu"}]
+    
 
     $scope.addPerson = function() {
         $scope.items.push({"name":"ddd"});
@@ -83,6 +105,13 @@
       var aStr = JSON.stringify($scope.phones);
       // Write a file:
       fs.writeFileSync('data/case.txt', aStr);
+      
+    };
+
+    $scope.test001 = function() {
+      
+      var aStr = JSON.stringify($scope.recipe);
+      alert(aStr);
       
     };
   }
