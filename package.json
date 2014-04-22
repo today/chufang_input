@@ -7,7 +7,7 @@
 
   "window": {
   	"title": "处方录入系统",
-  	"icon": "icon.png",
+  	"icon": "static/icon.png",
     "toolbar": true,
     "frame": true,
     "fullscreen": false,

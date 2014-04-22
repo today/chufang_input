@@ -1,68 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>福润堂</title>
-  
-  <link rel="stylesheet" href="css/app.css">
-  <link rel="stylesheet" href="css/bootstrap.css">
-  <script type="text/javascript" src="lib/angular.js"></script>
-  <script type="text/javascript" src="lib/angular-route.js"></script>
-  <script type="text/javascript" src="lib/jquery-1.11.0.js"></script>
+'use strict';
 
-  o
-</head>
-<body ng-app="imglistApp">
-  <form name="myForm" ng-controller="Ctrl">
-    <h1>福润堂 </h1> 
-    <h2>病历录入 第一步 选择患者</h2>
-    <br>
-    <h3>
-      <span ng-click="triggle_old()">
-        <input name="new_or_old" type="radio" ng-model="new_or_old"  value="old">
-        复诊    &nbsp;&nbsp;&nbsp;&nbsp;</span>
-      <span ng-click="triggle_new()">
-        <input name="new_or_old" type="radio" ng-model="new_or_old" value="new">初次就诊</span>
-    </h3>
-    <br>
-    <h3>请选择患者照片</h3>
-    <br>
-    <div id="new_patient_photos" ng-hide="show_new" >
-      <span ng-repeat="name in new_filenames " ng-click="setPhotoName(name)">
-        <img src="new_photos/{{name}}" width="160" height="120" style="float:top;" />
-        <input type="radio" name="new_patient" ng-model="new_patient" value="{{name}}"  >{{name}} 
-      </span>
-    </div>
+/* Controllers */
 
-    <div id="old_patient_photos" ng-hide="show_old" >
-      <span ng-repeat="patient in patient_infos " ng-click="setPatientId(patient)" >
-        <img src="img/{{patient.head_photoes}}" width="160" height="120" style="float:top;" />
-        <input type="radio" name="old_patient" ng-model="old_patient" value="{{patient.patient_id}}"  >{{patient.name}} 
-      </span>
-    </div>
 
-    <div> 
-      <li ng-repeat="img in selected_images" >{{name}} </li>
-    </div>
+var frtControllers = angular.module('frtControllers', []);
 
-    <br><br> 
-    <h2 style="float:right;" ng-hide="show_next">
-      <a href="#" ng-click="goInput()" >下一步</a>
-    </h2>
+frtControllers.controller('indexCtrl', ['$scope', 
+  function($scope, $http) {
+    
+       $scope.tempValue = 12;
+ 
+  }]);
 
-    <br><br><br><br><br>
-    <h2 style="float:left;" >
-      <a href="#" ng-click="testA()" >测试按钮，上线前须删除</a>
-    </h2>
-  </form>
-
-<script type="text/javascript">
-var fs = require('fs');
-var path = require('path');
-
-var imglistApp = angular.module('imglistApp', []);
-
-function Ctrl($scope) {
+frtControllers.controller('input_1_Ctrl', ['$scope',
+  function($scope, $http) {
+    
   $scope.value = 12;
   $scope.new_or_old = "old";
   $scope.new_patient = "";
@@ -147,12 +99,7 @@ function Ctrl($scope) {
 
     console.log( JSON.stringify($scope.new_patient) );
   };
-}
-
-</script>
-</body>
-</html>
-
-
+ 
+  }]);
 
 
