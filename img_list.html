@@ -13,7 +13,7 @@
 <body ng-app="imglistApp">
   <form name="myForm" ng-controller="Ctrl">
     <h1>福润堂 </h1> 
-    <h2>病历录入 第一步 选择患者</h2>
+    <h2>病历录入 第一步 选择图片</h2>
     <br>
     <h3>
       <span ng-click="triggle_old()">
@@ -23,7 +23,7 @@
         <input name="new_or_old" type="radio" ng-model="new_or_old" value="new">初次就诊</span>
     </h3>
     <br>
-    <h3>请选择患者照片</h3>
+    <h3>请选择照片</h3>
     <br>
     <div id="new_patient_photos" ng-hide="show_new" >
       <span ng-repeat="name in new_filenames " ng-click="setPhotoName(name)">
@@ -61,8 +61,8 @@ var path = require('path');
 var imglistApp = angular.module('imglistApp', []);
 
 function Ctrl($scope) {
-  $scope.value = 12;
-  $scope.new_or_old = "old";
+  
+  $scope.new_or_old = "new";
   $scope.new_patient = "";
   $scope.show_new = true;
   $scope.show_old = false;
