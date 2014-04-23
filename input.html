@@ -10,22 +10,26 @@
   <script type="text/javascript" src="lib/angular-route.js"></script>
   <script type="text/javascript" src="lib/jquery-1.11.0.js"></script>
 </head>
-<body ng-app="inputApp">
-  <form name="myForm" ng-controller="Ctrl">
+<body ng-app="inputApp" ng-controller="Ctrl">
+  
     <h1 style="">福润堂 处方录入<a href="index.html" style="float:right">返回首页</a></h1> 
     <br>
-    <div sytle="float:left">
+    <table><tr><td>
+    <div>
                <input  type="hidden"  name="patients.patients_id"  ng-model="patients.patients_id" style="width:100px" required/>
-      姓名:     <input  type="text" name="patients.name"          ng-model="patients.name"        style="width:60px"  required/> 
-      性别:     <input  type="text" name="patients.sex"           ng-model="patients.sex"         style="width:20px"  required/>
-      年龄:     <input  type="text" name="patients.age"           ng-model="patients.age"         style="width:30px"  required/>
-      电话:     <input  type="text" name="patients.phone_no"      ng-model="patients.phone_no"    style="width:100px" required/>
+      姓名:     <input  type="text"    name="patients.name"          ng-model="patients.name"     ng-readonly="old_readonly"  style="width:60px"  required/> 
+      <input type="button" name="btn_select" value=" 从预约名单中选取 " ng-click="selectPerson()"  />
+      <br/>
+      性别:     <input  type="text" name="patients.sex"           ng-model="patients.sex"    ng-readonly="old_readonly"       style="width:20px"  required/>
+      年龄:     <input  type="text" name="patients.age"           ng-model="patients.age"       ng-readonly="old_readonly"    style="width:30px"  required/>
+      电话:     <input  type="text" name="patients.phone_no"      ng-model="patients.phone_no"     ng-readonly="old_readonly" style="width:100px" required/>
       <br/>
       备注:     <textarea   name="patients.comment"      ng-model="patients.comment"       ></textarea>
       <br/>
-      <input type="button" name="btn_1" value=" 保存患者信息 " ng-click="savePerson()"  />
+      <input type="button" name="btn_save_p" value=" 保存患者信息 " ng-click="savePerson()"  />
       <hr/>
-      
+      </div>
+      <div >
       门诊号:   <input  type="text"  name="case_id"  ng-model="case.case_id" style="width:100px" required/>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       这是第
@@ -56,23 +60,33 @@
 
       </table>
       
-      <input type="button" name="btn_2" value=" 保存处方信息 " ng-click="saveXXXXX()"  />
-      <input type="button" name="btn_3" value="再加10行" ng-click="addRecipeItem(10)" />
+      <input type="button" value=" 保存处方信息 " ng-click="saveXXXXX()"  />
+      <input type="button"  value="再加10行" ng-click="addRecipeItem(10)" />
 
-      <input type="button" name="btn_2" value=" 测试 " ng-click="test001()"  />
+      <input type="button" value=" 测试 " ng-click="test001()"  />
     </div>
-        
-  </form>
-
-
+      </td>
+      <td>
+      
+    <div ng-repeat="img in new_photos"  >
+      <img src="{{img}}" height="800">
+    </div>
+    </td></tr>
+        </table>
   
-  </form>
-
 <script type="text/javascript">
   var inputApp = angular.module('inputApp', []);
 
   function Ctrl($scope) {
     $scope.new_photos = [];
+    var url_param = location.href.substring(location.href.indexOf("?")+1);
+    var params = url_param.split(",");
+    for( i=0; i<params.length; i++ ){
+      $scope.new_photos.push( "new_photos/" + params[i]);
+    }
+
+
+    $scope.old_readonly = true;
 
     $scope.patients = {"patients_id":"00001","name":"罗辑","sex":"男","age":"","phone_no":"18990000001","comment":"123456 abcdef"};
     $scope.case = {"case_id":"00001","counts":"4","dingxing":"寒","dingbing":"寒症","dingzheng":"冷","comment":"987654 xyzabc"};
