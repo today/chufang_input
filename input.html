@@ -64,7 +64,8 @@
           </td>
           <td><input  type="number"   ng-model="obj.count"        required style="width:40px"  />
           </td><td>
-            <select ng-model="obj.unit" ng-options="opt.name for opt in zhongyaounits" style="width:100px"></select>
+            
+            <input  type="text"   ng-model="obj.unit"        required style="width:30px"  />
 
           </td><td><input  type="text"     ng-model="obj.remark"      required style="width:120px"/>
           </td>
@@ -107,7 +108,7 @@
         tempObj.index_id=i;
         tempObj.medicine="";
         tempObj.count=0;
-        tempObj.unit="0";
+        tempObj.unit="克";
         tempObj.remark="";
 
         $scope.recipe.push(tempObj);
