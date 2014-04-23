@@ -14,44 +14,36 @@
   <form name="myForm" ng-controller="Ctrl">
     <h1>福润堂 </h1> 
     <h2>病历录入 第一步 选择图片</h2>
+    <h2 style="float:right;" >
+      <a href="#" ng-click="testA()" >测试按钮，上线前须删除</a>
+    </h2>
     <br>
-    <h3>
-      <span ng-click="triggle_old()">
-        <input name="new_or_old" type="radio" ng-model="new_or_old"  value="old">
-        复诊    &nbsp;&nbsp;&nbsp;&nbsp;</span>
-      <span ng-click="triggle_new()">
-        <input name="new_or_old" type="radio" ng-model="new_or_old" value="new">初次就诊</span>
-    </h3>
-    <br>
-    <h3>请选择照片</h3>
-    <br>
-    <div id="new_patient_photos" ng-hide="show_new" >
-      <span ng-repeat="name in new_filenames " ng-click="setPhotoName(name)">
+   
+    <div id="new_patient_photos"  style="float:left;" >
+      <li ng-repeat="name in new_filenames " ng-click="setPhotoName(name)">
         <img src="new_photos/{{name}}" width="160" height="120" style="float:top;" />
         <input type="radio" name="new_patient" ng-model="new_patient" value="{{name}}"  >{{name}} 
-      </span>
+      </li>
     </div>
 
-    <div id="old_patient_photos" ng-hide="show_old" >
-      <span ng-repeat="patient in patient_infos " ng-click="setPatientId(patient)" >
-        <img src="img/{{patient.head_photoes}}" width="160" height="120" style="float:top;" />
-        <input type="radio" name="old_patient" ng-model="old_patient" value="{{patient.patient_id}}"  >{{patient.name}} 
-      </span>
+    <div id="big_photo" ng-hide="big_photo" style="float:right;" >
+        <h2 style="float:top;">
+          <a href="#" ng-click="goInput()" >下一步</a>
+        </h2>
+        <img src="{{big_photo_src}}" width="600" height="800" />
+        
     </div>
+    
 
     <div> 
       <li ng-repeat="img in selected_images" >{{name}} </li>
     </div>
 
     <br><br> 
-    <h2 style="float:right;" ng-hide="show_next">
-      <a href="#" ng-click="goInput()" >下一步</a>
-    </h2>
+    
 
-    <br><br><br><br><br>
-    <h2 style="float:left;" >
-      <a href="#" ng-click="testA()" >测试按钮，上线前须删除</a>
-    </h2>
+    <br>
+    
   </form>
 
 <script type="text/javascript">
@@ -64,9 +56,8 @@ function Ctrl($scope) {
   
   $scope.new_or_old = "new";
   $scope.new_patient = "";
-  $scope.show_new = true;
-  $scope.show_old = false;
-  $scope.show_next = true;
+  $scope.big_photo = true;
+  
 
   // 第一次就诊的患者的图片：读入目录下全部文件，这个目录放全部 。
   var files = fs.readdirSync("./new_photos");
@@ -80,18 +71,7 @@ function Ctrl($scope) {
   });
   $scope.new_filenames = imgFiles;
 
-  // 复诊的患者的资料：读入json文件 。
-  var patients_txt = fs.readFileSync("./data/patients.json");
-  patients_json = JSON.parse(patients_txt);
-  // 筛选出 复诊患者
-  var patients_temp = [];
-  patients_json.forEach(function(patient, index) {
-    if( "n" === patient.flag_is_blank ){
-      patients_temp.push(patient);
-    }
-    //console.log( patient.patient_id );
-  });
-  $scope.patient_infos = patients_temp;
+  
 
   $scope.triggle_new = function(){
     $scope.new_or_old = "new";
@@ -113,7 +93,8 @@ function Ctrl($scope) {
 
   $scope.setPhotoName = function( imgname ){
     $scope.new_patient = imgname;
-    $scope.show_next = false;
+    $scope.big_photo_src = "new_photos/"+imgname;
+    $scope.big_photo = false;
   };
 
   $scope.goInput = function(){
