@@ -45,14 +45,15 @@
       <div >
       门诊号:   <input  type="text"   ng-model="newdata.case.case_id" style="width:100px"  ng-readonly="old_readonly" />
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      {{case.datetime}} &nbsp;&nbsp; 第 {{case.counts}} 次就诊
+      {{newdata.case.datetime}} &nbsp;&nbsp; 第 {{newdata.case.counts}} 次就诊
       <br/>
 
       定性:     <input  type="text"    ng-model="newdata.case.dingxing"     style="width:400px"    required/><br/>
       定病:     <input  type="text"    ng-model="newdata.case.dingbing"     style="width:400px"    required/><br/>
       定症:     <input  type="text"    ng-model="newdata.case.dingzheng"    style="width:400px"    required/><br/>
-      备注:     <textarea              ng-model="newdata.case.comment"      style="width:400px"   ></textarea>
-      <br/>
+      备注:     <textarea              ng-model="newdata.case.comment"      style="width:400px"   ></textarea><br/>
+      抓药数量:  <input  type="text"    ng-model="newdata.case.suitnum"      style="width:375px"    required/><br/>
+      
       <div style="float:left;">处方:&nbsp;</div>
       <table border="1" style="float:left;">
         <tr>
@@ -88,7 +89,7 @@
   function Ctrl($scope) {
     $scope.newdata = {};
     //$scope.newdata.patients = {};
-    //$scope.newdata.case = {};
+    $scope.newdata.case = {};
 
     $scope.new_photos = [];
     var url_param = location.href.substring(location.href.indexOf("?")+1);
@@ -134,6 +135,8 @@
       var aStr = JSON.stringify($scope.newdata);
       // Write a file:
       fs.writeFileSync('data/c'+ $scope.newdata.case.case_id +'.json', aStr);
+
+      window.location.href = "img_list.html" ;
       
     };
 
@@ -147,7 +150,10 @@
 
       $scope.test002 = function() {
         $scope.newdata.patients = {patients_id:"00001",name:"罗辑","sex":"男","age":"46","phone_no":"18990000001","comment":"123456 abcdef"};
-        $scope.newdata.case = {"case_id":"00001", "datetime":"2014-4-23", "counts":"4","dingxing":"寒","dingbing":"寒症","dingzheng":"冷","comment":"987654 xyzabc"};
+        $scope.newdata.case = {"case_id":"00001", "datetime":"2014-4-23", 
+                               "counts":"4","dingxing":"寒","dingbing":"寒症",
+                               "dingzheng":"冷","comment":"987654 xyzabc",suitnum:"15"
+                               };
 
         tempObj=new Object();
         tempObj.medicine="山楂";
