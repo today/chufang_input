@@ -22,35 +22,36 @@
       </center>
     
     <span ng-repeat="img in new_photos" style="" >
-      <img src="{{img}}" width="600" height="800">
+      <img src="new_photos/{{img}}" width="600" height="800">
     </div>
     </td>
     <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
       <td>
     <div>
-               <input  type="hidden"  name="patients.patients_id"  ng-model="patients.patients_id" style="width:100px" required/>
-      姓名:     <input  type="text"    name="patients.name"          ng-model="patients.name"     ng-readonly="old_readonly"  style="width:60px"  required/> 
-      <input type="button" name="btn_select" value=" 从预约名单中选取 " ng-click="selectPerson()"  />
-      <br/>
-      性别:     <input  type="text" name="patients.sex"        ng-model="patients.sex"       ng-readonly="old_readonly"       style="width:20px"  required/>
-      年龄:     <input  type="text" name="patients.age"        ng-model="patients.age"       ng-readonly="old_readonly"    style="width:30px"  required/>
-      电话:     <input  type="text" name="patients.phone_no"   ng-model="patients.phone_no"  ng-readonly="old_readonly" style="width:100px" required/>
-      <br/>
-      备注:     <textarea   name="patients.comment"      ng-model="patients.comment"       ></textarea>
+               <input  type="text"    ng-model="newdata.patients.patients_id" style="width:100px" readonly />
+      姓名:     <input  type="text"   ng-model="newdata.patients.name"     ng-readonly="old_readonly"  style="width:60px"  required/> 
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <input type="button" name="btn_save_p" value=" 保存患者信息 " ng-click="savePerson()"  />
+      <input type="button"  value=" 从预约名单中选取 " ng-click="selectPerson()"  />
+      <br/>
+      性别:     <input  type="text"    ng-model="newdata.patients.sex"       ng-readonly="old_readonly"       style="width:20px"  required/>
+      年龄:     <input  type="text"    ng-model="newdata.patients.age"       ng-readonly="old_readonly"    style="width:30px"  required/>
+      电话:     <input  type="text"    ng-model="newdata.patients.phone_no"  ng-readonly="old_readonly" style="width:100px" required/>
+      <br/>
+      备注:     <textarea       ng-model="newdata.patients.comment"       ></textarea>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="button"  value=" 保存患者信息 " ng-click="savePerson()"  />
       <hr/>
       </div>
       <div >
-      门诊号:   <input  type="text"  name="case_id"  ng-model="case.case_id" style="width:100px"  ng-readonly="old_readonly" />
+      门诊号:   <input  type="text"   ng-model="newdata.case.case_id" style="width:100px"  ng-readonly="old_readonly" />
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       {{case.datetime}} &nbsp;&nbsp; 第 {{case.counts}} 次就诊
       <br/>
 
-      定性:     <input  type="text" name="dingxing"         ng-model="case.dingxing"     style="width:400px"    required/><br/>
-      定病:     <input  type="text" name="dingbing"         ng-model="case.dingbing"     style="width:400px"    required/><br/>
-      定症:     <input  type="text" name="dingzheng"        ng-model="case.dingzheng"    style="width:400px"    required/><br/>
-      备注:     <textarea   name="case.comment"      ng-model="case.comment"    style="width:400px"   ></textarea>
+      定性:     <input  type="text"    ng-model="newdata.case.dingxing"     style="width:400px"    required/><br/>
+      定病:     <input  type="text"    ng-model="newdata.case.dingbing"     style="width:400px"    required/><br/>
+      定症:     <input  type="text"    ng-model="newdata.case.dingzheng"    style="width:400px"    required/><br/>
+      备注:     <textarea              ng-model="newdata.case.comment"      style="width:400px"   ></textarea>
       <br/>
       <div style="float:left;">处方:&nbsp;</div>
       <table border="1" style="float:left;">
@@ -58,16 +59,12 @@
           <td></td><td>药名</td><td>用量</td><td>单位</td><td>备注</td>
         </tr>  
 
-        <tr ng-repeat="obj in recipe  track by $id(obj)">
-          <td>&nbsp; {{obj.index_id}} &nbsp; </td>
-          <td><input  type="text"     ng-model="obj.medicine"     required style="width:100px" />
-          </td>
-          <td><input  type="number"   ng-model="obj.count"        required style="width:40px"  />
-          </td><td>
-            
-            <input  type="text"   ng-model="obj.unit"        required style="width:30px"  />
-
-          </td><td><input  type="text"     ng-model="obj.remark"      required style="width:120px"/>
+        <tr ng-repeat="obj in newdata.recipe  track by $id(obj)">
+          <td>&nbsp; {{$index+1}} &nbsp; 
+          </td><td><input  type="text"     ng-model="obj.medicine"     required style="width:100px" />
+          </td><td><input  type="number"   ng-model="obj.count"        required style="width:40px"  />
+          </td><td><input  type="text"     ng-model="obj.unit"         required style="width:30px"  />
+          </td><td><input  type="text"     ng-model="obj.remark"                style="width:120px"/>
           </td>
         </tr>
 
@@ -75,9 +72,10 @@
       <br/><br/>
       <div>
         
-      <input type="button" value=" 保存处方信息 " ng-click="saveXXXXX()"  />
-      <input type="button"  value="再加10行" ng-click="addRecipeItem(10)" />
-      <input type="button" value=" 测试 " ng-click="test001()"  />
+      <input type="button" value=" 保存处方信息 "   ng-click="saveCase()"  />
+      <input type="button" value="再加10行"        ng-click="addRecipeItem(10)" />
+      <input type="button" value=" 测试: 显示数据 " ng-click="test001()"  />
+      <input type="button" value=" 测试: 填充数据 " ng-click="test002()"  />
       </div>
     </div>
       </td>
@@ -88,20 +86,21 @@
   var inputApp = angular.module('inputApp', []);
 
   function Ctrl($scope) {
+    $scope.newdata = {};
+    //$scope.newdata.patients = {};
+    //$scope.newdata.case = {};
+
     $scope.new_photos = [];
     var url_param = location.href.substring(location.href.indexOf("?")+1);
     var params = url_param.split(",");
     for( i=0; i<params.length; i++ ){
-      $scope.new_photos.push( "new_photos/" + params[i]);
+      $scope.new_photos.push( params[i]);
     }
 
 
-    $scope.old_readonly = true;
+    $scope.old_readonly = false;
 
-    $scope.patients = {"patients_id":"00001","name":"罗辑","sex":"男","age":"","phone_no":"18990000001","comment":"123456 abcdef"};
-    $scope.case = {"case_id":"00001", "datetime":"2014-4-23", "counts":"4","dingxing":"寒","dingbing":"寒症","dingzheng":"冷","comment":"987654 xyzabc"};
-
-    $scope.recipe = [];
+    $scope.newdata.recipe = [];
     $scope.addRecipeItem = function( lineNum ){
       for(i=1;i<(lineNum+1);i++){
         tempObj=new Object();
@@ -111,18 +110,14 @@
         tempObj.unit="克";
         tempObj.remark="";
 
-        $scope.recipe.push(tempObj);
+        $scope.newdata.recipe.push(tempObj);
       }
     }
     $scope.addRecipeItem(10);
     
-    //$scope.zhongyaounits = [{name:"克",v:"ke"},{name:"瓶",v:"ping"},{name:"盒",v:"he"},{name:"包",v:"bao"},{name:"付",v:"fu"}]
+   
     $scope.zhongyaounits = [{name:"克"},{name:"瓶"},{name:"盒"},{name:"包"},{name:"付"}]
-        
-
-    $scope.addPerson = function() {
-        $scope.items.push({"name":"ddd"});
-    };
+    
 
     $scope.savePerson = function() {
       fs = require('fs');
@@ -132,12 +127,50 @@
       
     };
 
+    $scope.saveCase = function() {
+      fs = require('fs');
+      $scope.newdata.case.images = $scope.new_photos;
+
+      var aStr = JSON.stringify($scope.newdata);
+      // Write a file:
+      fs.writeFileSync('data/c'+ $scope.newdata.case.case_id +'.json', aStr);
+      
+    };
+
+
     $scope.test001 = function() {
       
-      var aStr = JSON.stringify($scope.recipe);
+      var aStr = JSON.stringify($scope.newdata);
       alert(aStr);
       
     };
+
+      $scope.test002 = function() {
+        $scope.newdata.patients = {patients_id:"00001",name:"罗辑","sex":"男","age":"46","phone_no":"18990000001","comment":"123456 abcdef"};
+        $scope.newdata.case = {"case_id":"00001", "datetime":"2014-4-23", "counts":"4","dingxing":"寒","dingbing":"寒症","dingzheng":"冷","comment":"987654 xyzabc"};
+
+        tempObj=new Object();
+        tempObj.medicine="山楂";
+        tempObj.count=10;
+        tempObj.unit="克";
+        tempObj.remark="abc";
+        $scope.newdata.recipe[0] = tempObj;
+
+        tempObj=new Object();
+        tempObj.medicine="陈皮";
+        tempObj.count=10;
+        tempObj.unit="克";
+        tempObj.remark="def";
+        $scope.newdata.recipe[1] = (tempObj);
+
+        tempObj=new Object();
+        tempObj.medicine="萝卜";
+        tempObj.count=20;
+        tempObj.unit="克";
+        tempObj.remark="";
+        $scope.newdata.recipe[2] = (tempObj);
+        
+      };
   }
   
 
