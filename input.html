@@ -14,35 +14,46 @@
   
     <h1 style="">福润堂 处方录入<a href="index.html" style="float:right">返回首页</a></h1> 
     <br>
-    <table><tr><td>
+    <table><tr>
+      <td>
+        <center>
+        <input  type="button"  value="   +   "  />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input  type="button"  value="   -   "  />
+      </center>
+    
+    <span ng-repeat="img in new_photos" style="" >
+      <img src="{{img}}" width="600" height="800">
+    </div>
+    </td>
+    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+      <td>
     <div>
                <input  type="hidden"  name="patients.patients_id"  ng-model="patients.patients_id" style="width:100px" required/>
       姓名:     <input  type="text"    name="patients.name"          ng-model="patients.name"     ng-readonly="old_readonly"  style="width:60px"  required/> 
       <input type="button" name="btn_select" value=" 从预约名单中选取 " ng-click="selectPerson()"  />
       <br/>
-      性别:     <input  type="text" name="patients.sex"           ng-model="patients.sex"    ng-readonly="old_readonly"       style="width:20px"  required/>
-      年龄:     <input  type="text" name="patients.age"           ng-model="patients.age"       ng-readonly="old_readonly"    style="width:30px"  required/>
-      电话:     <input  type="text" name="patients.phone_no"      ng-model="patients.phone_no"     ng-readonly="old_readonly" style="width:100px" required/>
+      性别:     <input  type="text" name="patients.sex"        ng-model="patients.sex"       ng-readonly="old_readonly"       style="width:20px"  required/>
+      年龄:     <input  type="text" name="patients.age"        ng-model="patients.age"       ng-readonly="old_readonly"    style="width:30px"  required/>
+      电话:     <input  type="text" name="patients.phone_no"   ng-model="patients.phone_no"  ng-readonly="old_readonly" style="width:100px" required/>
       <br/>
       备注:     <textarea   name="patients.comment"      ng-model="patients.comment"       ></textarea>
-      <br/>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <input type="button" name="btn_save_p" value=" 保存患者信息 " ng-click="savePerson()"  />
       <hr/>
       </div>
       <div >
-      门诊号:   <input  type="text"  name="case_id"  ng-model="case.case_id" style="width:100px" required/>
+      门诊号:   <input  type="text"  name="case_id"  ng-model="case.case_id" style="width:100px"  ng-readonly="old_readonly" />
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      这是第
-      <input  type="text"  name="case.counts"  ng-model="case.counts"  required style="width:40px" />  次就诊
-      &nbsp;&nbsp;<input  type="button" name="btn_plus" value="+"  /><br/>
-
-      定性:     <input  type="text" name="dingxing"         ng-model="case.dingxing"         required/><br/>
-      定病:     <input  type="text" name="dingbing"         ng-model="case.dingbing"         required/><br/>
-      定症:     <input  type="text" name="dingzheng"        ng-model="case.dingzheng"        required/><br/>
-      备注:     <textarea   name="case.comment"      ng-model="case.comment"       ></textarea>
+      {{case.datetime}} &nbsp;&nbsp; 第 {{case.counts}} 次就诊
       <br/>
-      <span>处方：</span>
-      <table border="1">
+
+      定性:     <input  type="text" name="dingxing"         ng-model="case.dingxing"     style="width:400px"    required/><br/>
+      定病:     <input  type="text" name="dingbing"         ng-model="case.dingbing"     style="width:400px"    required/><br/>
+      定症:     <input  type="text" name="dingzheng"        ng-model="case.dingzheng"    style="width:400px"    required/><br/>
+      备注:     <textarea   name="case.comment"      ng-model="case.comment"    style="width:400px"   ></textarea>
+      <br/>
+      <div style="float:left;">处方:&nbsp;</div>
+      <table border="1" style="float:left;">
         <tr>
           <td></td><td>药名</td><td>用量</td><td>单位</td><td>备注</td>
         </tr>  
@@ -53,25 +64,23 @@
           </td>
           <td><input  type="number"   ng-model="obj.count"        required style="width:40px"  />
           </td><td>
-            <select ng-model="obj.unit" ng-options="opt.v as opt.name for opt in zhongyaounits" style="width:100px"></select>
+            <select ng-model="obj.unit" ng-options="opt.name for opt in zhongyaounits" style="width:100px"></select>
+
           </td><td><input  type="text"     ng-model="obj.remark"      required style="width:120px"/>
           </td>
         </tr>
 
       </table>
-      
+      <br/><br/>
+      <div>
+        
       <input type="button" value=" 保存处方信息 " ng-click="saveXXXXX()"  />
       <input type="button"  value="再加10行" ng-click="addRecipeItem(10)" />
-
       <input type="button" value=" 测试 " ng-click="test001()"  />
+      </div>
     </div>
       </td>
-      <td>
-      
-    <div ng-repeat="img in new_photos"  >
-      <img src="{{img}}" height="800">
-    </div>
-    </td></tr>
+      </tr>
         </table>
   
 <script type="text/javascript">
@@ -89,7 +98,7 @@
     $scope.old_readonly = true;
 
     $scope.patients = {"patients_id":"00001","name":"罗辑","sex":"男","age":"","phone_no":"18990000001","comment":"123456 abcdef"};
-    $scope.case = {"case_id":"00001","counts":"4","dingxing":"寒","dingbing":"寒症","dingzheng":"冷","comment":"987654 xyzabc"};
+    $scope.case = {"case_id":"00001", "datetime":"2014-4-23", "counts":"4","dingxing":"寒","dingbing":"寒症","dingzheng":"冷","comment":"987654 xyzabc"};
 
     $scope.recipe = [];
     $scope.addRecipeItem = function( lineNum ){
@@ -98,7 +107,7 @@
         tempObj.index_id=i;
         tempObj.medicine="";
         tempObj.count=0;
-        tempObj.unit={name:"克",v:"ke"};
+        tempObj.unit="0";
         tempObj.remark="";
 
         $scope.recipe.push(tempObj);
@@ -106,8 +115,9 @@
     }
     $scope.addRecipeItem(10);
     
-    $scope.zhongyaounits = [{name:"克",v:"ke"},{name:"瓶",v:"ping"},{name:"盒",v:"he"},{name:"包",v:"bao"},{name:"付",v:"fu"}]
-    
+    //$scope.zhongyaounits = [{name:"克",v:"ke"},{name:"瓶",v:"ping"},{name:"盒",v:"he"},{name:"包",v:"bao"},{name:"付",v:"fu"}]
+    $scope.zhongyaounits = [{name:"克"},{name:"瓶"},{name:"盒"},{name:"包"},{name:"付"}]
+        
 
     $scope.addPerson = function() {
         $scope.items.push({"name":"ddd"});
