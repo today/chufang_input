@@ -135,7 +135,7 @@
       var aStr = JSON.stringify($scope.newdata);
       // Write a file:
       fs.writeFileSync('data/c'+ $scope.newdata.case.case_id +'.json', aStr);
-
+      confirm("保存成功");
       window.location.href = "img_list.html" ;
       
     };
