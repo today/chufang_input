@@ -20,16 +20,18 @@
     选择日期：<input type="date"   ng-model="datas.selected_date" required style="width:150px" ng-change="loadBooking()" />
     <table border="1">
       <tr>
-        <th>case_id</th>
-        <th>patient_id</th>
-        <th>name</th>
-        <th>mobile</th>
+        <th>门诊编号</th>
+        <th>患者编号</th>
+        <th>姓名</th>
+        <th>联系电话</th>
+        <th>备注</th>
       </tr>
       <tr ng-repeat="obj in datas.bookinglist">
         <td>{{obj.case_id}}</td>
         <td>{{obj.patient_id}}</td>
         <td>{{obj.name}}</td>
         <td>{{obj.mobile}}</td>
+        <td>{{obj.comment}}</td>
       </tr>
     </table>
     
@@ -37,6 +39,8 @@
 
     <div style="float:right;">
       <h2 style="">新增预约</h2>
+      预约日期：<input type="date"   ng-model="fields.treat_date" min="2014-01-01"  required style="width:150px" />
+      <br/>
       联系电话：<input type="tel" ng-model="fields.mobile" style="width:100px" required />
       <br/>
       姓名:     <input  type="text"   ng-model="fields.name" style="width:60px"  required/> &nbsp;&nbsp;&nbsp;
@@ -46,8 +50,7 @@
       &nbsp;&nbsp;&nbsp;
       <br/>
 
-      预约日期：<input type="date"   ng-model="fields.treat_date" min="2014-01-01"  required style="width:150px" />
-      <br/>
+      
       备注:     <textarea  ng-model="fields.comment"      style="width:181px"   ></textarea><br/>
 
       <br>    
@@ -83,17 +86,17 @@
     $scope.saveBooking = function() {
       
       var objBooking = getBooking($scope.fields.treat_date);
-      //alert( objBooking );
       
-      console.log( "$scope.fields " + JSON.stringify($scope.fields) );
       objBooking.push($scope.fields);
-      console.log( "objBooking " + objBooking );
       
+      strDate = getYMD($scope.fields.treat_date);
       var aStr = JSON.stringify(objBooking);
-      console.log( aStr );
+      // console.log( "aStr = ###" + aStr + "###" );
       // Write a file:
       fs.writeFileSync( getBookingFilename($scope.fields.treat_date), aStr);
       confirm("保存成功");
+
+      $scope.datas.selected_date = $scope.fields.treat_date;
       $scope.loadBooking();
     };
 
@@ -108,8 +111,8 @@
     $scope.testFill = function() {
         
         $scope.fields = {"patient_id":"00001","case_id":"00002"
-                              ,"treat_date":"04/28/2014","mobile":"1111"
-                              ,"name":"李四","comment":"来的早"};
+                              ,"treat_date":"04/28/2014","mobile":"13991300001"
+                              ,"name":"李四四","comment":"你好你好你好你好你好你好你好你好"};
 
       };
   }
