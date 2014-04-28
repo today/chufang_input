@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>福润堂 预约</title>
+  
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <script type="text/javascript" src="lib/angular.js"></script>
+  <script type="text/javascript" src="lib/angular-route.js"></script>
+  <script type="text/javascript" src="js/common.js"></script>
+</head>
+<body ng-app="inputApp" ng-controller="Ctrl">
+
+  <h1 style="">福润堂 预约<a href="index.html" style="float:right">返回首页</a></h1> 
+  <br>
+
+  <div style="float:left;width:500px;">
+    <h2 style="">预约列表</h2>
+    选择日期：<input type="date"   ng-model="datas.selected_date" required style="width:150px" ng-change="loadBooking()" />
+    <table border="1">
+      <tr>
+        <th>case_id</th>
+        <th>patient_id</th>
+        <th>name</th>
+        <th>mobile</th>
+      </tr>
+      <tr ng-repeat="obj in datas.bookinglist">
+        <td>{{obj.case_id}}</td>
+        <td>{{obj.patient_id}}</td>
+        <td>{{obj.name}}</td>
+        <td>{{obj.mobile}}</td>
+      </tr>
+    </table>
+    
+    </div>
+
+    <div style="float:right;">
+      <h2 style="">新增预约</h2>
+      联系电话：<input type="tel" ng-model="fields.mobile" style="width:100px" required />
+      <br/>
+      姓名:     <input  type="text"   ng-model="fields.name" style="width:60px"  required/> &nbsp;&nbsp;&nbsp;
+      
+      患者ID:      <input  type="text"    ng-model="fields.patient_id"  style="width:80px" readonly /> 
+      门诊ID: <input  type="text"    ng-model="fields.case_id"  style="width:80px" readonly />
+      &nbsp;&nbsp;&nbsp;
+      <br/>
+
+      预约日期：<input type="date"   ng-model="fields.treat_date" min="2014-01-01"  required style="width:150px" />
+      <br/>
+      备注:     <textarea  ng-model="fields.comment"      style="width:181px"   ></textarea><br/>
+
+      <br>    
+      <input type="button" value=" 保存 "   ng-click="saveBooking()"  />
+
+
+      <br><br>  
+      <input type="button" value=" 测试: 填充数据 " ng-click="testFill()"  />
+    </div>
+  
+<script type="text/javascript">
+  
+  var inputApp = angular.module('inputApp', []);
+
+  function Ctrl($scope) {
+    $scope.fields = {};
+    $scope.datas = {};
+
+    $scope.fields.patient_id= ""
+    $scope.fields.case_id= ""
+    
+
+    var objDate = new Date(); 
+    $scope.fields.treat_date = objDate;
+    $scope.datas.selected_date = objDate;
+
+    
+    $scope.loadBooking = function() {
+      $scope.datas.bookinglist = getBooking($scope.datas.selected_date);
+    };
+    
+    
+    $scope.saveBooking = function() {
+      
+      var objBooking = getBooking($scope.fields.treat_date);
+      //alert( objBooking );
+      
+      console.log( "$scope.fields " + JSON.stringify($scope.fields) );
+      objBooking.push($scope.fields);
+      console.log( "objBooking " + objBooking );
+      
+      var aStr = JSON.stringify(objBooking);
+      console.log( aStr );
+      // Write a file:
+      fs.writeFileSync( getBookingFilename($scope.fields.treat_date), aStr);
+      confirm("保存成功");
+      $scope.loadBooking();
+    };
+
+  
+    $scope.loadBooking();
+
+    $scope.test002 = function() {
+        //alert($scope.fields.treat_date);
+        alert(  );
+    };
+
+    $scope.testFill = function() {
+        
+        $scope.fields = {"patient_id":"00001","case_id":"00002"
+                              ,"treat_date":"04/28/2014","mobile":"1111"
+                              ,"name":"李四","comment":"来的早"};
+
+      };
+  }
+  
+
+  </script>
+</body>
+</html>
+
+
+
+
