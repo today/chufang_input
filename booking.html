@@ -20,18 +20,22 @@
     选择日期：<input type="date"   ng-model="datas.selected_date" required style="width:150px" ng-change="loadBooking()" />
     <table border="1">
       <tr>
+        <th></th>
         <th>门诊编号</th>
         <th>患者编号</th>
         <th>姓名</th>
         <th>联系电话</th>
         <th>备注</th>
+        <th></th>
       </tr>
       <tr ng-repeat="obj in datas.bookinglist">
+        <td>{{$index+1}}</td>
         <td>{{obj.case_id}}</td>
         <td>{{obj.patient_id}}</td>
         <td>{{obj.name}}</td>
         <td>{{obj.mobile}}</td>
         <td>{{obj.comment}}</td>
+        <td><input type="button" ng-click="goDel( $index )" value="删除">  </td>
       </tr>
     </table>
     
@@ -100,6 +104,13 @@
       $scope.loadBooking();
     };
 
+    $scope.goDel = function( index ) {
+        $scope.datas.bookinglist.splice(index,1);
+        var aStr = JSON.stringify($scope.datas.bookinglist)
+        fs.writeFileSync( getBookingFilename($scope.datas.selected_date), aStr);
+        console.log( "$scope.datas.bookinglist = ###" + JSON.stringify($scope.datas.bookinglist) + "###" );
+    };
+
   
     $scope.loadBooking();
 
@@ -109,10 +120,11 @@
     };
 
     $scope.testFill = function() {
-        
-        $scope.fields = {"patient_id":"00001","case_id":"00002"
-                              ,"treat_date":"04/28/2014","mobile":"13991300001"
-                              ,"name":"李四四","comment":"你好你好你好你好你好你好你好你好"};
+        $scope.fields.patient_id =  "00001";
+        $scope.fields.case_id =  "00002";
+        $scope.fields.mobile =  "13991300001";
+        $scope.fields.name =  "李四四";
+        $scope.fields.comment =  "经常来下午来。";
 
       };
   }
