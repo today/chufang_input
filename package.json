@@ -1,6 +1,6 @@
 {
   "name": "FuRunTang",
-  "main": "index.html",
+  "main": "bookinglist.html",
   "description": "福润堂处方系统",
   "version": "0.1.0",
   "keywords": [ "中医","门诊","处方","录入", "node-webkit" ],
