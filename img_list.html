@@ -42,6 +42,8 @@ var path = require('path');
 var imglistApp = angular.module('imglistApp', []);
 
 function Ctrl($scope) {
+  var url_param = location.href.substring(location.href.indexOf("?")+1);
+    
   
   $scope.new_patient = "";
   $scope.big_photo = true;
@@ -66,7 +68,7 @@ function Ctrl($scope) {
   };
 
   $scope.goInput = function(){
-    window.location.href = "input.html?" + $scope.imgname ;
+    window.location.href = "input.html?" + url_param + "," + $scope.imgname ;
   };
   
 

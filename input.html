@@ -28,10 +28,10 @@
     <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
       <td>
     <div>
-               <input  type="text"    ng-model="newdata.patients.patients_id" style="width:100px"  />
+      病历号:   <input  type="text"    ng-model="newdata.patients.patients_id" readonly style="width:100px"  />
       姓名:     <input  type="text"   ng-model="newdata.patients.name"     ng-readonly="old_readonly"  style="width:60px"  required/> 
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <input type="button"  value=" 从预约名单中选取 " ng-click="selectPerson()"  />
+      
       <br/>
       性别:     <input  type="text"    ng-model="newdata.patients.sex"       ng-readonly="old_readonly"       style="width:20px"  required/>
       年龄:     <input  type="text"    ng-model="newdata.patients.age"       ng-readonly="old_readonly"    style="width:30px"  required/>
@@ -39,11 +39,11 @@
       <br/>
       备注:     <textarea       ng-model="newdata.patients.comment"       ></textarea>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <input type="button"  value=" 保存患者信息 " ng-click="savePerson()"  />
+      
       <hr/>
       </div>
       <div >
-      门诊号:   <input  type="text"   ng-model="newdata.case.case_id" style="width:100px"  ng-readonly="old_readonly" />
+      门诊号:   <input  type="text"   ng-model="newdata.case.case_id" style="width:100px"  readonly />
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       {{newdata.case.datetime}} &nbsp;&nbsp; 第 {{newdata.case.counts}} 次就诊
       <br/>
@@ -88,13 +88,16 @@
 
   function Ctrl($scope) {
     $scope.newdata = {};
-    //$scope.newdata.patients = {};
+    $scope.newdata.patients = {};
     $scope.newdata.case = {};
 
     $scope.new_photos = [];
     var url_param = location.href.substring(location.href.indexOf("?")+1);
     var params = url_param.split(",");
-    for( i=0; i<params.length; i++ ){
+    $scope.newdata.patients.patients_id = params[0];
+    $scope.newdata.case.case_id = params[1];
+
+    for( i=2; i<params.length; i++ ){
       $scope.new_photos.push( params[i]);
     }
 

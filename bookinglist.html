@@ -66,6 +66,8 @@
     $scope.goInput = function( patient_id, case_id) {
       console.log( "patient_id=" + patient_id );
       console.log( "case_id=" + case_id );
+      target_url = "img_list.html?" + patient_id + ","+ case_id; 
+      window.location.href = target_url ;
     };
     
 
