@@ -5,7 +5,10 @@ function getYMD( aDate ){
 	var month = aDate.getMonth()+1;
 	var day = aDate.getDate();
 
-	return "" + year + "-" + month + "-" + day;
+	var strDate = "" + year + "-" + month + "-" + day;
+	console.log(strDate);
+
+	return strDate;
 
 }
 
