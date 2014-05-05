@@ -28,7 +28,7 @@
     <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
       <td>
     <div>
-      病历号:   <input  type="text"    ng-model="newdata.patients.patients_id" readonly style="width:100px"  />
+      病历号:   <input  type="text"    ng-model="newdata.patients.patients_id"  style="width:100px"  />
       姓名:     <input  type="text"   ng-model="newdata.patients.name"     ng-readonly="old_readonly"  style="width:60px"  required/> 
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       
@@ -43,7 +43,7 @@
       <hr/>
       </div>
       <div >
-      门诊号:   <input  type="text"   ng-model="newdata.case.case_id" style="width:100px"  readonly />
+      门诊号:   <input  type="text"   ng-model="newdata.case.case_id" style="width:100px"   />
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       {{newdata.case.datetime}} &nbsp;&nbsp; 第 {{newdata.case.counts}} 次就诊
       <br/>
@@ -141,7 +141,7 @@
       fs.writeFileSync('data/c'+ $scope.newdata.case.case_id +'.json', aStr);
 
       confirm("保存成功");
-      window.location.href = "img_list.html" ;
+      window.location.href = "bookinglist.html" ;
       
     };
 
