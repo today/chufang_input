@@ -78,6 +78,7 @@
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          
           <input type="button" value=" 保存处方信息 "   ng-click="saveCase()"  />
 
 
@@ -88,6 +89,7 @@
     </td>
   </tr>
 </table>
+<h1 id="auto_hide_msg" ng-show="flag_save_sucess" >保存成功</h1>
   
 <script type="text/javascript">
   var inputApp = angular.module('inputApp', []);
@@ -96,6 +98,7 @@
     $scope.newdata = {};
     $scope.newdata.patients = {};
     $scope.newdata.case = {};
+    $scope.flag_save_sucess = false;
 
     $scope.new_photos = [];
     var url_param = location.href.substring(location.href.indexOf("?")+1);
@@ -145,9 +148,14 @@
       // Write a file:
       //console.log( "aStr = ###" + aStr + "###" );
       fs.writeFileSync('data/c'+ $scope.newdata.case.case_id +'.json', aStr);
+      //confirm("保存成功");
+      $scope.flag_save_sucess = true;
 
-      confirm("保存成功");
-      window.location.href = "bookinglist.html" ;
+      setTimeout(function(){
+                              $scope.flag_save_sucess = false;
+                              window.location.href = "bookinglist.html" ;
+                            },2000);
+      
       
     };
 

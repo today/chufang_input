@@ -13,3 +13,14 @@ h1 {
 hr {
   border-bottom: 1px solid gray;
 }
+
+#auto_hide_msg{
+	padding:10px;background-color:#666666;color:#FFFFFF;
+	width:300px;height:150px;
+	display:block; 
+	position: absolute;
+	top:50%;
+	left:50%;
+	margin-left:-150px;
+	margin-top:-75px;
+}
