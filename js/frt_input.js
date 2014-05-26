@@ -23,9 +23,7 @@ function getBooking( aDate ){
 
 	if(fs.existsSync( strFilename) ){
 		var strBookingList = fs.readFileSync(strFilename);
-	    
-		console.log("getBooking(): " + strBookingList);
-
+		//console.log("getBooking(): " + strBookingList);
 	    aJson = JSON.parse(strBookingList);
 	}
 	

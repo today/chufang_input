@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="css/app.css">
   <link rel="stylesheet" href="css/bootstrap.css">
   <script type="text/javascript" src="lib/angular.js"></script>
-  <script type="text/javascript" src="lib/angular-route.js"></script>
+ 
   <script type="text/javascript" src="js/frt_input.js"></script>
 </head>
 <body ng-app="inputApp" ng-controller="Ctrl">
@@ -15,9 +15,11 @@
   <h1 style="">福润堂<a href="index.html" style="float:right">导航页</a></h1> 
   <br>
 
-  <div style="float:left;width:500px;">
+  <div style="float:left;width:600px;">
     <h2 style="">预约记录</h2>
-    选择日期：<input type="date"   ng-model="datas.selected_date" required style="width:150px" ng-change="loadBooking()" />
+    选择日期：<input type="date"   ng-model="selected_date" required style="width:150px" ng-change="loadBooking()" />
+    <button   ng-click="import_booking()" style="float:right;" > 导入预约数据 </button>
+
     <table border="1">
       <tr>
         <th></th>
@@ -25,18 +27,18 @@
         <th>门诊号</th>
         <th>姓名</th>
         <th>联系电话</th>
-        <th>备注</th>
+        <th style="width:150px;">备注</th>
         <th></th>
       </tr>
       <tr ng-repeat="obj in datas.bookinglist">
         <td align="center">{{$index+1}}</td>
         
-        <td>{{obj.patient_id}}</td>
-        <td>{{obj.case_id}}</td>
+        <td>{{obj.patient_no}}</td>
+        <td>{{obj.case_no}}</td>
         <td>{{obj.name}}</td>
         <td>{{obj.mobile}}</td>
         <td>{{obj.comment}}</td>
-        <td><input type="button" ng-click="goInput( obj.patient_id,obj.case_id )" value="录入处方信息">  </td>
+        <td><input type="button" ng-click="goInput( obj.patient_no,obj.case_no )" value="录入处方信息">  </td>
       </tr>
     </table>
     
@@ -56,17 +58,17 @@
 
     var objDate = new Date(); 
     $scope.fields.treat_date = objDate;
-    $scope.datas.selected_date = objDate;
+    $scope.selected_date = objDate;
 
     
     $scope.loadBooking = function() {
-      $scope.datas.bookinglist = getBooking($scope.datas.selected_date);
+      $scope.datas = getBooking($scope.selected_date);
     };
 
-    $scope.goInput = function( patient_id, case_id) {
-      console.log( "patient_id=" + patient_id );
-      console.log( "case_id=" + case_id );
-      target_url = "img_list.html?" + patient_id + ","+ case_id; 
+    $scope.goInput = function( patient_no, case_no) {
+      console.log( "patient_id=" + patient_no );
+      console.log( "case_id=" + case_no );
+      target_url = "img_list.html?" + patient_no + ","+ case_no; 
       window.location.href = target_url ;
     };
     
@@ -74,15 +76,37 @@
   
     $scope.loadBooking();
 
+    // 从预约模块，拷贝预约数据到本模块的data目录下。
+    $scope.import_booking = function() {
+      console.log( "import_booking Start." );
+      var process = require('child_process');
+      var os = require('os');
+      
+      dos_cmd = 'copy ../FRT_booking/data/*.json ./data/';
+      osx_sh  = 'cp ../FRT_booking/data/*.json ./data/';
 
-    $scope.testFill = function() {
-        $scope.fields.patient_id =  "00001";
-        $scope.fields.case_id =  "00002";
-        $scope.fields.mobile =  "13991300001";
-        $scope.fields.name =  "李四四";
-        $scope.fields.comment =  "经常来下午来。";
+      // 根据不同的操作系统，设置不同的拷贝命令
+      console.log('os : ' + os.platform() );
+      if( 'darwin' == os.platform() ){
+          run_str = osx_sh;
+      }else{
+          run_str = dos_cmd;
+      }
+      console.log('run_str : ' + run_str);
 
-      };
+
+      //直接调用命令
+      process.exec(run_str, function (error, stdout, stderr) {
+          if (error !== null) {
+            console.log('exec error: ' + error);
+          }
+          console.log('stdout: ' + stdout);
+          $scope.loadBooking();
+          $scope.$apply();
+      });
+      
+    };
+
   }
   
 
