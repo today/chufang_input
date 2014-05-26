@@ -28,22 +28,24 @@
     <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
     <td>
       <div>
-        病历号:   <input  type="text"    ng-model="newdata.patients.patients_id"  style="width:100px"  />
+        病历号:   <input  type="text"   ng-model="newdata.patients.patient_no" ng-readonly="old_readonly" style="width:100px"  />
         姓名:     <input  type="text"   ng-model="newdata.patients.name"     ng-readonly="old_readonly"  style="width:60px"  required/> 
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button  ng-click="findInfo()"  >检索病人信息</button>
+        
 
         <br/>
         性别:     <input  type="text"    ng-model="newdata.patients.sex"       ng-readonly="old_readonly"       style="width:20px"  required/>
         年龄:     <input  type="text"    ng-model="newdata.patients.age"       ng-readonly="old_readonly"    style="width:30px"  required/>
         电话:     <input  type="text"    ng-model="newdata.patients.phone_no"  ng-readonly="old_readonly" style="width:100px" required/>
         <br/>
-        备注:     <textarea       ng-model="newdata.patients.comment"       ></textarea>
+        备注:     <textarea       ng-model="newdata.patients.comment"   ng-readonly="old_readonly"    ></textarea>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
         <hr/>
       </div>
       <div >
-        门诊号:   <input  type="text"   ng-model="newdata.case.case_id" style="width:100px"   />
+        门诊号:   <input  type="text"   ng-model="newdata.case.case_no" style="width:100px"   />
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         {{newdata.case.datetime}} &nbsp;&nbsp; 第 {{newdata.case.counts}} 次就诊
         <br/>
@@ -83,7 +85,7 @@
 
 
           <input type="hidden" value=" 测试: 显示数据 " ng-click="test001()"  />
-          <input type="hidden" value=" 测试: 填充数据 " ng-click="test002()"  />
+          <input type="text" value=" 测试: 填充数据 " ng-click="test002()"  />
         </div>
       </div>
     </td>
@@ -95,6 +97,9 @@
   var inputApp = angular.module('inputApp', []);
 
   function Ctrl($scope) {
+    var fs = require('fs');
+    var _ = require('underscore');
+
     $scope.newdata = {};
     $scope.newdata.patients = {};
     $scope.newdata.case = {};
@@ -103,8 +108,8 @@
     $scope.new_photos = [];
     var url_param = location.href.substring(location.href.indexOf("?")+1);
     var params = url_param.split(",");
-    $scope.newdata.patients.patients_id = params[0];
-    $scope.newdata.case.case_id = params[1];
+    $scope.newdata.patients.patient_no = params[0];
+    $scope.newdata.case.case_no = params[1];
 
     for( i=2; i<params.length; i++ ){
       $scope.new_photos.push( params[i]);
@@ -131,23 +136,24 @@
    
     $scope.zhongyaounits = [{name:"克"},{name:"瓶"},{name:"盒"},{name:"包"},{name:"付"}]
     
-
+    // 这个函数好像已经废弃了。
+    // *****************************************************
     $scope.savePerson = function() {
       fs = require('fs');
       var aStr = JSON.stringify($scope.phones);
       // Write a file:
       fs.writeFileSync('data/case.txt', aStr);
-      
     };
+    // *****************************************************
 
     $scope.saveCase = function() {
-      fs = require('fs');
+      
       $scope.newdata.case.images = $scope.new_photos;
 
       var aStr = JSON.stringify($scope.newdata);
       // Write a file:
       //console.log( "aStr = ###" + aStr + "###" );
-      fs.writeFileSync('data/c'+ $scope.newdata.case.case_id +'.json', aStr);
+      fs.writeFileSync('data/case/c'+ $scope.newdata.case.case_no +'.json', aStr);
       //confirm("保存成功");
       $scope.flag_save_sucess = true;
 
@@ -155,9 +161,40 @@
                               $scope.flag_save_sucess = false;
                               window.location.href = "bookinglist.html" ;
                             },2000);
-      
-      
     };
+
+    // 根据电话号码，找出患者信息。
+    $scope.findInfo = function() {
+
+      var database = {};
+      var strFilename = "data/database.json"
+      if(fs.existsSync( strFilename) ){
+        var strBookingList = fs.readFileSync(strFilename);
+        database = JSON.parse(strBookingList);
+        
+        var findObj = {};
+        findObj.patient_no = $scope.newdata.patients.patient_no;
+        //console.log(database.patient_list[0]);
+        //console.log(findObj);
+        var tempObj = _.findWhere(database.patient_list, findObj );
+        
+
+        if(tempObj){
+          $scope.newdata.patients.name = tempObj.patient_name;
+          $scope.newdata.patients.phone_no = tempObj.mobile;
+          $scope.newdata.patients.comment = tempObj.comment;
+
+          $scope.old_readonly = true;
+        }else{
+          // todo  新患者提示
+        }
+        
+      }else{
+        // todo  出错提示，存放患者信息的json文件不存在。
+      }
+    };
+
+
 
 
     $scope.test001 = function() {
@@ -168,8 +205,8 @@
     };
 
       $scope.test002 = function() {
-        $scope.newdata.patients = {patients_id:"00001",name:"罗辑","sex":"男","age":"46","phone_no":"18990000001","comment":"123456 abcdef"};
-        $scope.newdata.case = {"case_id":"00001", "datetime":"2014-4-23", 
+        //$scope.newdata.patients = {patients_id:"00001",name:"罗辑","sex":"男","age":"46","phone_no":"18990000001","comment":"123456 abcdef"};
+        $scope.newdata.case = {"case_no":"2014-5-27_1", "datetime":"2014-4-23", 
                                "counts":"4","dingxing":"寒","dingbing":"寒症",
                                "dingzheng":"冷","comment":"987654 xyzabc",suitnum:"15"
                                };

@@ -52,8 +52,9 @@
     $scope.fields = {};
     $scope.datas = {};
 
-    $scope.fields.patient_id= ""
-    $scope.fields.case_id= ""
+    $scope.fields.patient_no= ""
+    $scope.fields.case_no= ""
+    $scope.fields.bookingFileName= ""
     
 
     var objDate = new Date(); 
@@ -66,8 +67,8 @@
     };
 
     $scope.goInput = function( patient_no, case_no) {
-      console.log( "patient_id=" + patient_no );
-      console.log( "case_id=" + case_no );
+      console.log( "patien_no=" + patient_no );
+      console.log( "case_no=" + case_no );
       target_url = "img_list.html?" + patient_no + ","+ case_no; 
       window.location.href = target_url ;
     };
