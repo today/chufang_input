@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="css/app.css">
   <link rel="stylesheet" href="css/bootstrap.css">
   <script type="text/javascript" src="lib/angular.js"></script>
-  <script type="text/javascript" src="lib/angular-route.js"></script>
   <script type="text/javascript" src="lib/jquery-1.11.0.js"></script>
 </head>
 <body ng-app="inputApp" ng-controller="Ctrl">
@@ -63,7 +62,7 @@
             <td></td><td>药名</td><td>用量</td><td>单位</td><td>备注</td>
           </tr>  
 
-          <tr ng-repeat="obj in newdata.recipe  track by $id(obj)">
+          <tr ng-repeat="obj in newdata.case.recipe">
             <td>&nbsp; {{$index+1}} &nbsp; </td>
             <td><input  type="text"     ng-model="obj.medicine"     required style="width:100px" /></td>
             <td><input  type="number"   ng-model="obj.count"        required style="width:40px"  /></td>
@@ -78,10 +77,7 @@
           <hr/><br/><br/>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <input type="button" value="再加10行"        ng-click="addRecipeItem(10)" />
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <input type="button" value=" 保存处方信息 "   ng-click="saveCase()"  />
 
 
@@ -120,33 +116,22 @@
     $scope.old_readonly = false;
     $scope.old_show = false;
 
-    $scope.newdata.recipe = [];
+    $scope.newdata.case.recipe = [];
     $scope.addRecipeItem = function( lineNum ){
       for(i=1;i<(lineNum+1);i++){
-        tempObj=new Object();
+        tempObj = new Object();
         tempObj.index_id=i;
         tempObj.medicine="";
         tempObj.count=0;
         tempObj.unit="克";
         tempObj.remark="";
 
-        $scope.newdata.recipe.push(tempObj);
+        $scope.newdata.case.recipe.push(tempObj);
+        console.log(JSON.stringify(tempObj));
       }
     }
     $scope.addRecipeItem(10);
     
-   
-    $scope.zhongyaounits = [{name:"克"},{name:"瓶"},{name:"盒"},{name:"包"},{name:"付"}]
-    
-    // 这个函数好像已经废弃了。
-    // *****************************************************
-    $scope.savePerson = function() {
-      fs = require('fs');
-      var aStr = JSON.stringify($scope.phones);
-      // Write a file:
-      fs.writeFileSync('data/case.txt', aStr);
-    };
-    // *****************************************************
 
     $scope.saveCase = function() {
       
@@ -154,7 +139,7 @@
 
       var aStr = JSON.stringify($scope.newdata);
       // Write a file:
-      //console.log( "aStr = ###" + aStr + "###" );
+      console.log( "aStr = ###" + aStr + "###" );
       fs.writeFileSync('data/case/c'+ $scope.newdata.case.case_no +'.json', aStr);
       //confirm("保存成功");
       $scope.flag_save_sucess = true;
@@ -225,21 +210,21 @@
         tempObj.count=10;
         tempObj.unit="克";
         tempObj.remark="abc";
-        $scope.newdata.recipe[0] = tempObj;
+        $scope.newdata.case.recipe[0] = tempObj;
 
         tempObj=new Object();
         tempObj.medicine="陈皮";
         tempObj.count=10;
         tempObj.unit="克";
         tempObj.remark="def";
-        $scope.newdata.recipe[1] = (tempObj);
+        $scope.newdata.case.recipe[1] = (tempObj);
 
         tempObj=new Object();
         tempObj.medicine="萝卜";
         tempObj.count=20;
         tempObj.unit="克";
         tempObj.remark="";
-        $scope.newdata.recipe[2] = (tempObj);
+        $scope.newdata.case.recipe[2] = (tempObj);
         
       };
   }
