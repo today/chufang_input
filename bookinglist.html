@@ -52,9 +52,8 @@
     $scope.fields = {};
     $scope.datas = {};
 
-    $scope.fields.patient_no= ""
-    $scope.fields.case_no= ""
-    $scope.fields.bookingFileName= ""
+    //$scope.fields.patient_no= "";
+    //$scope.fields.case_no= "";
     
 
     var objDate = new Date(); 
@@ -83,7 +82,7 @@
       var process = require('child_process');
       var os = require('os');
       
-      dos_cmd = 'copy ../FRT_booking/data/*.json ./data/';
+      dos_cmd = 'copy ..\\FRT_booking\\data\\*.json .\\data\\';
       osx_sh  = 'cp ../FRT_booking/data/*.json ./data/';
 
       // 根据不同的操作系统，设置不同的拷贝命令
