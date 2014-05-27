@@ -28,10 +28,11 @@
     <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
     <td>
       <div>
-        病历号:   <input  type="text"   ng-model="newdata.patients.patient_no" ng-readonly="old_readonly" style="width:100px"  />
+        病历号:   <input  type="text"   ng-model="newdata.patients.patient_no" ng-readonly="true" style="width:100px"  />
         姓名:     <input  type="text"   ng-model="newdata.patients.name"     ng-readonly="old_readonly"  style="width:60px"  required/> 
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <button  ng-click="findInfo()"  >检索病人信息</button>
+        <br/><span ng-show="old_show" style="color:red;">无法检索到患者信息，如果是新患者，请直接输入信息。</span>
         
 
         <br/>
@@ -39,7 +40,7 @@
         年龄:     <input  type="text"    ng-model="newdata.patients.age"       ng-readonly="old_readonly"    style="width:30px"  required/>
         电话:     <input  type="text"    ng-model="newdata.patients.phone_no"  ng-readonly="old_readonly" style="width:100px" required/>
         <br/>
-        备注:     <textarea       ng-model="newdata.patients.comment"   ng-readonly="old_readonly"    ></textarea>
+        备注:     <textarea       ng-model="newdata.patients.comment"      ></textarea>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
         <hr/>
@@ -117,6 +118,7 @@
 
 
     $scope.old_readonly = false;
+    $scope.old_show = false;
 
     $scope.newdata.recipe = [];
     $scope.addRecipeItem = function( lineNum ){
@@ -160,11 +162,12 @@
       setTimeout(function(){
                               $scope.flag_save_sucess = false;
                               window.location.href = "bookinglist.html" ;
-                            },2000);
+                            },1000);
     };
 
     // 根据电话号码，找出患者信息。
     $scope.findInfo = function() {
+      $scope.old_show = false;
 
       var database = {};
       var strFilename = "data/database.json"
@@ -185,8 +188,10 @@
           $scope.newdata.patients.comment = tempObj.comment;
 
           $scope.old_readonly = true;
+          $scope.old_show = false;
         }else{
           // todo  新患者提示
+          $scope.old_show = true;
         }
         
       }else{
@@ -206,10 +211,14 @@
 
       $scope.test002 = function() {
         //$scope.newdata.patients = {patients_id:"00001",name:"罗辑","sex":"男","age":"46","phone_no":"18990000001","comment":"123456 abcdef"};
-        $scope.newdata.case = {"case_no":"2014-5-27_1", "datetime":"2014-4-23", 
-                               "counts":"4","dingxing":"寒","dingbing":"寒症",
-                               "dingzheng":"冷","comment":"987654 xyzabc",suitnum:"15"
-                               };
+        $scope.newdata.case.datetime = "2014-4-23";
+        $scope.newdata.case.counts = "4";
+        $scope.newdata.case.dingxing = "寒";
+        $scope.newdata.case.dingbing = "寒症";
+        $scope.newdata.case.dingzheng = "冷";
+        $scope.newdata.case.comment = "987654 xyzabc";
+        $scope.newdata.case.suitnum = "15";
+
 
         tempObj=new Object();
         tempObj.medicine="山楂";
