@@ -27,7 +27,7 @@
     <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
     <td>
       <div>
-        病历号:   <input  type="text"   ng-model="newdata.patients.patient_no" ng-readonly="true" style="width:100px"  />
+        病历号:   <input  type="text"   ng-model="newdata.patients.patient_no" ng-readonly="false" style="width:100px"  />
         姓名:     <input  type="text"   ng-model="newdata.patients.name"     ng-readonly="old_readonly"  style="width:60px"  required/> 
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <button  ng-click="findInfo()"  >检索病人信息</button>
@@ -141,7 +141,13 @@
       // Write a file:
       console.log( "aStr = ###" + aStr + "###" );
       fs.writeFileSync('data/case/c'+ $scope.newdata.case.case_no +'.json', aStr);
-      //confirm("保存成功");
+      
+      // 把用过的照片移动到 old_photos 目录中去。
+      for( i=0; i<$scope.new_photos.length; i++ ){
+        fs.renameSync("new_photos/" + $scope.new_photos[i], "old_photos/" + $scope.new_photos[i]);
+      }
+
+
       $scope.flag_save_sucess = true;
 
       setTimeout(function(){
