@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>福润堂</title>
+  
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <script type="text/javascript" src="lib/angular.js"></script>
+  <script type="text/javascript" src="js/frt_input.js"></script>
+</head>
+<body ng-app="dbApp"  ng-controller="Ctrl">
+    <h1>福润堂 <a href="index.html" style="float:right">返回首页</a>
+       </h1> 
+    <h2>数据维护   <button ng-click="ifNoDB()" style="float:right;" >连接数据库</button></h2> 
+    <br/>
+    <span ng-show="!noDB" style="color:blue;">数据库连接正常，可以上传数据。</span>
+    <div ng-show="!noDB" >
+      <br/><button ng-click="uploadCase()"  >上传病历</button><br/><br/>
+    </div>
+    <h3>病历文件列表：<br/></h3>
+    <br>
+    <li ng-repeat="name in new_filenames " ng-click="showJson(name)">
+        {{name}} <br><br>
+    </li>
+    
+<script type="text/javascript">
+var path = require('path');
+
+var dbApp = angular.module('dbApp', []);
+
+function Ctrl($scope) {
+  $scope.noDB = false;//true;
+
+  // 读入目录下全部 JSon 文件 。
+  var files = fs.readdirSync("./data/case");
+  var jsonFiles = [];
+  // 筛选出 JSon 文件
+  files.forEach(function(fileName, index) {
+    if( ".json" === path.extname(fileName) ){
+      jsonFiles.push(fileName);
+    }
+    //console.log( path.extname(fileName) );
+  });
+  $scope.new_filenames = jsonFiles;
+
+  
+  /*  测试数据库是否可访问   */
+  $scope.ifNoDB = function (){
+    var conn = getConn();
+    conn.connect();
+    conn.query('SELECT * from t_setting', function(err, rows, fields) {
+      if (err) {
+        $scope.noDB = true;
+        $scope.$apply();
+        //console.log("XXXXXXXXXXXXXX" + $scope.noDB );
+      }else{
+        $scope.noDB = false;
+        $scope.$apply();
+        //console.log("OOOOOOOOOOOOOO" + $scope.noDB );
+      }
+    });
+    conn.end();
+  };
+
+  
+  $scope.uploadCase = function() {
+    console.log( "uploadCase() Start." );
+    var conn = getConn();
+    conn.connect();
+
+    for( i=0; i<$scope.new_filenames.length; i++ ){
+      var temp_name = $scope.new_filenames[i];
+      console.log(temp_name);
+
+      if(!isblank(temp_name)){
+
+        // 读入Json文件
+        $scope.jsonObj = getJson2obj("data/case/" + temp_name);
+        var temp_p = $scope.jsonObj.patients;
+        
+        var strSQL1 = "insert into t_patient (patient_no, patient_name, sex, age, mobile, comment) values "
+                    + "('" + temp_p.patient_no + "','"+temp_p.name
+                    + "','" + temp_p.sex + "','"+temp_p.age
+                    + "','"+temp_p.phone_no+"','"+temp_p.comment+"'); ";
+
+        conn.query(strSQL1, function(err, result) {
+            if (err) {
+              console.log( err);
+              console.log('strSQL1 :', strSQL1);
+              //throw err;
+            }
+            console.log('The result.id is :', result.insertId);
+            
+        });
+      }else{
+        console.log("Error: filename is blank!");
+      }
+    }
+    conn.end();
+  };
+
+  $scope.showJson = function(filename) {
+    console.log( "filename : " + filename );
+  };
+
+  $scope.testA = function() {
+    console.log( JSON.stringify($scope) );
+  };
+}
+
+</script>
+</body>
+</html>
+
+
+
+
