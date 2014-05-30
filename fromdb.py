@@ -16,16 +16,29 @@ def getRecipe( p_no  ):
       sql1 = "select json_id from t_patient where  patient_no='"+ p_no + "' order by id desc"
       print sql1
       cur.execute(sql1)
-      temp_p_json_id = cur.fetchone()
+      result=cur.fetchone()
+      temp_p_json_id = result[0]
       print temp_p_json_id
+
+      sql3 = "select json_string from t_json where  id='"+ str(temp_p_json_id) + "' "
+      cur.execute(sql3)
+      result=cur.fetchone()
+      p_json = result[0]
+      print p_json
       
       sql2 = "select json_id from t_recipe where  patient_no='"+ p_no + "' order by id desc"
       print sql2
       cur.execute(sql2)
-      temp_c_json_id = cur.fetchone()
-      print temp_c_json_id
+      allResult=cur.fetchall()
+      for result in allResult:
+        temp_c_json_id = result[0]
+        print temp_c_json_id
 
-      
+        sql4 = "select json_string from t_json where  id='"+ str(temp_c_json_id) + "' "
+        cur.execute(sql4)
+        ajson = cur.fetchone()
+        c_json = ajson[0]
+        print c_json
         
       conn.commit()
       cur.close()
