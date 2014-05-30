@@ -9,7 +9,7 @@
   <script type="text/javascript" src="lib/angular.js"></script>
   <script type="text/javascript" src="js/frt_input.js"></script>
 </head>
-<body ng-app="dbApp"  ng-controller="Ctrl">
+<body ng-app="dbApp" ng-controller="Ctrl">
     <h1>福润堂 <a href="index.html" style="float:right">返回首页</a>
        </h1> 
     <h2>数据维护   <button ng-click="ifNoDB()" style="float:right;" >连接数据库</button></h2> 
@@ -20,8 +20,8 @@
     </div>
     <h3>病历文件列表：<br/></h3>
     <br>
-    <li ng-repeat="name in new_filenames " ng-click="showJson(name)">
-        {{name}} <br><br>
+    <li ng-repeat="name in new_filenames " >
+        <span ng-click="showJson(name)"> {{name}} </span> <button ng-click="save2db(name)">保存到数据库</button>  <br><br>
     </li>
     
 <script type="text/javascript">
@@ -62,42 +62,9 @@ function Ctrl($scope) {
     });
     conn.end();
   };
-
   
-  $scope.uploadCase = function() {
-    console.log( "uploadCase() Start." );
-    var conn = getConn();
-    conn.connect();
-
-    for( i=0; i<$scope.new_filenames.length; i++ ){
-      var temp_name = $scope.new_filenames[i];
-      console.log(temp_name);
-
-      if(!isblank(temp_name)){
-
-        // 读入Json文件
-        $scope.jsonObj = getJson2obj("data/case/" + temp_name);
-        var temp_p = $scope.jsonObj.patients;
-        
-        var strSQL1 = "insert into t_patient (patient_no, patient_name, sex, age, mobile, comment) values "
-                    + "('" + temp_p.patient_no + "','"+temp_p.name
-                    + "','" + temp_p.sex + "','"+temp_p.age
-                    + "','"+temp_p.phone_no+"','"+temp_p.comment+"'); ";
-
-        conn.query(strSQL1, function(err, result) {
-            if (err) {
-              console.log( err);
-              console.log('strSQL1 :', strSQL1);
-              //throw err;
-            }
-            console.log('The result.id is :', result.insertId);
-            
-        });
-      }else{
-        console.log("Error: filename is blank!");
-      }
-    }
-    conn.end();
+  $scope.save2db = function(filename) {
+    console.log(filename);
   };
 
   $scope.showJson = function(filename) {
