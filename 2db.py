@@ -39,13 +39,12 @@ def saveRecipe( recipe ):
       temp_p_id = conn.insert_id()
 
       """  处方信息插入数据库  """
-      sql4 = "INSERT INTO `t_recipe` ( `recipe_no`, `patient_id`, `patient_name`, " \
-            + "`mobile`, `dingxing`, `dingbing`, `dingzheng`, `comment`, " \
-            + "`suitnum`, `json_id`) VALUES " \
-            + " ( '"+ caseObj['case_no'] + "', '" + str(temp_p_id) +"', '"+ patientObj['name'] \
-            + "', '"+ patientObj['phone_no'] + "', '" + caseObj['dingxing'] + "', '"+ caseObj['dingbing'] \
-            + "', '"+ caseObj['dingzheng'] +"', '"+ caseObj['comment'] +"', '"+ caseObj['suitnum'] \
-            + "', '"+ str(temp_c_json_id) +"' )"
+      sql4 = "INSERT INTO `t_recipe` ( `recipe_no`, `patient_id`, `patient_no`, `patient_name`, " \
+            + "`mobile`, `dingxing`, `dingbing`, `dingzheng`, `comment`, " + "`suitnum`, `json_id`) VALUES " \
+            + " ( '"+ caseObj['case_no'] + "', '" + str(temp_p_id) +"', '" + patientObj['patient_no']  \
+            + "', '" + patientObj['name'] + "', '"+ patientObj['phone_no'] + "', '" + caseObj['dingxing']  \
+            + "', '"+ caseObj['dingbing'] + "', '"+ caseObj['dingzheng'] +"', '"+ caseObj['comment'] \
+            +"', '"+ caseObj['suitnum'] + "', '"+ str(temp_c_json_id) +"' )"
       cur.execute(sql4)
       temp_c_id = conn.insert_id()
 
