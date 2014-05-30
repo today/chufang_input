@@ -2,6 +2,8 @@
 
 import json
 import MySQLdb
+import os
+#import shutil
 
 def saveRecipe( recipe ):
   patientObj = recipeObject['patients']
@@ -67,17 +69,26 @@ def saveRecipe( recipe ):
      print "Mysql Error %d: %s" % (e.args[0], e.args[1])
 
 all_the_text = ""
-file_object = open('data/case/c2014-5-27_1.json')
-try:
-     all_the_text = file_object.read()
-finally:
-     file_object.close( )
+if os.path.exists( 'data/case/c2014-5-27_1.json' ) :
+  file_object = open('data/case/c2014-5-27_1.json')
+  try:
+      all_the_text = file_object.read()
+      recipeObject = json.loads( all_the_text)
 
-recipeObject = json.loads( all_the_text)
+      print recipeObject
 
-print recipeObject
+      saveRecipe( recipeObject )
+
+      #shutil.move('data/case/c2014-5-27_1.json','data/case_saved/c2014-5-27_1.json')
+      os.rename('data/case/c2014-5-27_1.json','data/case_saved/c2014-5-27_1.json')
+
+  finally:
+       file_object.close( )
+else:
+  print "file not exist."
 
 
-saveRecipe( recipeObject )
+
+
 
 
