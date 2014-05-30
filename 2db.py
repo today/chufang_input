@@ -9,6 +9,9 @@ import sys
 def saveRecipe( recipe ):
   patientObj = recipeObject['patients']
   caseObj = recipeObject['case']
+
+  setDefValue( patientObj, ('patient_no','name','sex','age','phone_no','comment') )
+  setDefValue( caseObj, ( 'case_no','dingxing','dingbing' , 'dingzheng','suitnum','comment') )
   
 
   #caseJson = json.dumps(caseObj, ensure_ascii=False,indent=2)
@@ -34,7 +37,8 @@ def saveRecipe( recipe ):
       sql3 = "insert into t_patient (patient_no, patient_name, sex, age, mobile, comment, json_id) values " \
             + "('" + patientObj['patient_no'] + "','" + patientObj['name'] \
             + "','" + patientObj['sex'] + "','"+patientObj['age'] \
-            + "','"+patientObj['phone_no'] + "','"+patientObj['comment'] + "','" + str(temp_p_json_id) +"'); " 
+            + "','"+  patientObj['phone_no'] + "','" \
+            + patientObj['comment'] + "','" + str(temp_p_json_id) +"'); " 
       cur.execute(sql3)
       temp_p_id = conn.insert_id()
 
@@ -43,8 +47,8 @@ def saveRecipe( recipe ):
             + "`mobile`, `dingxing`, `dingbing`, `dingzheng`, `comment`, " + "`suitnum`, `json_id`) VALUES " \
             + " ( '"+ caseObj['case_no'] + "', '" + str(temp_p_id) +"', '" + patientObj['patient_no']  \
             + "', '" + patientObj['name'] + "', '"+ patientObj['phone_no'] + "', '" + caseObj['dingxing']  \
-            + "', '"+ caseObj['dingbing'] + "', '"+ caseObj['dingzheng'] +"', '"+ caseObj['comment'] \
-            +"', '"+ caseObj['suitnum'] + "', '"+ str(temp_c_json_id) +"' )"
+            + "', '"+ caseObj['dingbing'] + "', '"+ caseObj['dingzheng'] +"', '"+ caseObj['comment']  \
+            + "', '"+ caseObj['suitnum'] + "', '"+ str(temp_c_json_id) +"' )"
       cur.execute(sql4)
       temp_c_id = conn.insert_id()
 
@@ -64,6 +68,12 @@ def saveRecipe( recipe ):
    
   except MySQLdb.Error,e:
      print "Mysql Error %d: %s" % (e.args[0], e.args[1])
+
+def setDefValue( aDict, akey_list ):
+  for akey in akey_list :
+    if not aDict.has_key( akey ):
+      aDict[akey] = ''
+      
 
 all_the_text = ""
 jsonfilename = 'data/case/' + sys.argv[1]
