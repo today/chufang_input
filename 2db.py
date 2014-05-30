@@ -3,6 +3,7 @@
 import json
 import MySQLdb
 import os
+import sys
 #import shutil
 
 def saveRecipe( recipe ):
@@ -13,8 +14,8 @@ def saveRecipe( recipe ):
   #caseJson = json.dumps(caseObj, ensure_ascii=False,indent=2)
   caseJson = json.dumps(caseObj, ensure_ascii=False)
   patientJson = json.dumps(patientObj,ensure_ascii=False)
-  print caseJson
-  print patientJson
+  #print caseJson
+  #print patientJson
 
   try:
       conn=MySQLdb.connect(host='localhost',user='root',passwd='',port=3306,db='frt', charset='utf8')
@@ -55,12 +56,9 @@ def saveRecipe( recipe ):
         sql5 = "INSERT INTO `t_recipe_item` (recipe_id, medicine, count, unit, remark ) VALUES ('" \
               + str(temp_c_id) + "', '" + itemObj['medicine'] + "', '" + str(itemObj['count']) + "', '" \
               + itemObj['unit'] + "', '"+ itemObj['remark'] + "' )"
-        print sql5
+        #print sql5
         cur.execute(sql5)
         
-        print  conn.insert_id()
-
-   
       conn.commit()
       cur.close()
       conn.close()
@@ -69,23 +67,26 @@ def saveRecipe( recipe ):
      print "Mysql Error %d: %s" % (e.args[0], e.args[1])
 
 all_the_text = ""
-if os.path.exists( 'data/case/c2014-5-27_1.json' ) :
-  file_object = open('data/case/c2014-5-27_1.json')
+jsonfilename = 'data/case/' + sys.argv[1]
+
+
+if os.path.exists( jsonfilename) :
+  file_object = open(jsonfilename)
   try:
       all_the_text = file_object.read()
       recipeObject = json.loads( all_the_text)
 
-      print recipeObject
-
       saveRecipe( recipeObject )
 
       # 处理完的文件，移动到另外的文件夹
-      os.rename('data/case/c2014-5-27_1.json','data/case_saved/c2014-5-27_1.json')
+      os.rename( jsonfilename, 'data/case_saved/' + sys.argv[1])
 
   finally:
        file_object.close( )
 else:
-  print "file not exist."
+  print "Error : file not exist."
+
+
 
 
 
