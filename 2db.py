@@ -79,7 +79,7 @@ if os.path.exists( 'data/case/c2014-5-27_1.json' ) :
 
       saveRecipe( recipeObject )
 
-      #shutil.move('data/case/c2014-5-27_1.json','data/case_saved/c2014-5-27_1.json')
+      # 处理完的文件，移动到另外的文件夹
       os.rename('data/case/c2014-5-27_1.json','data/case_saved/c2014-5-27_1.json')
 
   finally:
