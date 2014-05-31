@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-  
 
+import codecs 
 import json
 import MySQLdb
 import os
@@ -15,6 +16,7 @@ def saveRecipe( recipe ):
   
 
   #caseJson = json.dumps(caseObj, ensure_ascii=False,indent=2)
+
   caseJson = json.dumps(caseObj, ensure_ascii=False)
   patientJson = json.dumps(patientObj,ensure_ascii=False)
   #print caseJson
@@ -83,13 +85,21 @@ if os.path.exists( jsonfilename) :
   file_object = open(jsonfilename)
   try:
       all_the_text = file_object.read()
-      recipeObject = json.loads( all_the_text)
-
+      # 为了去除BOM 不得不做的检查。
+      if all_the_text[:3] == codecs.BOM_UTF8:  
+          all_the_text = all_the_text[3:] 
+      print all_the_text
+      recipeObject = json.loads( all_the_text )
+      print recipeObject
       saveRecipe( recipeObject )
 
       # 处理完的文件，移动到另外的文件夹
       os.rename( jsonfilename, 'data/case_saved/' + sys.argv[1])
-
+  except Exception as inst:
+      print type(inst)     # the exception instance
+      print inst.args      # arguments stored in .args
+      print inst           # __str__ allows args to printed directly
+      
   finally:
        file_object.close( )
 else:
