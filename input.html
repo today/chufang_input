@@ -58,7 +58,7 @@
         <div style="float:left;">处方:&nbsp;</div>
         <table border="1" style="float:left;">
           <tr>
-            <td></td><td>药名</td><td>用量</td><td>单位</td><td>备注</td>
+            <td></td><td>药名</td><td>用量</td><td>单位</td>
           </tr>  
 
           <tr ng-repeat="obj in newdata.case.recipe">
@@ -66,8 +66,7 @@
             <td><input  type="text"     ng-model="obj.medicine"     required style="width:100px" /></td>
             <td><input  type="number"   ng-model="obj.count"        required style="width:40px"  /></td>
             <td><input  type="text"     ng-model="obj.unit"         required style="width:30px"  /></td>
-            <td><input  type="text"     ng-model="obj.remark"                style="width:120px"/>
-            </td>
+            
           </tr>
 
         </table>
