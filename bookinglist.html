@@ -19,7 +19,7 @@
     <h2 style="">预约记录</h2>
     选择日期：<input type="date"   ng-model="selected_date" required style="width:150px" ng-change="loadBooking()" />
     <button   ng-click="import_booking()" style="float:right;" > 导入预约数据 </button>
-
+    <button   ng-click="getHistory()" style="float:right;" > 生成历史病历 </button>
     <table border="1">
       <tr>
         <th></th>
@@ -94,7 +94,6 @@
       }
       console.log('run_str : ' + run_str);
 
-
       //直接调用命令
       process.exec(run_str, function (error, stdout, stderr) {
           if (error !== null) {
@@ -105,6 +104,21 @@
           $scope.$apply();
       });
       
+    };
+
+    $scope.getHistory = function() {
+      console.log(filename);
+      patient_list = "48,52,56,57";
+
+      process.exec('python getHistory.py "' + patient_list + '"' ,
+        function (error, stdout, stderr) {
+          if (error !== null) {
+            console.log('exec error: ' + error);
+            // 显示操作失败消息。
+          }
+          console.log('stdout: ' + stdout);
+          // 显示操作成功消息。
+      });
     };
 
   }

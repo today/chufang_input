@@ -114,8 +114,10 @@
     $scope.newdata.case.case_no = params[1];
 
     for( i=2; i<params.length; i++ ){
-      $scope.new_photos.push( params[i]);
+      // 必须进行解码，以应对中文字符被编码为这样的串  %E4%B8%AD%E6%96%87  的情况
+      $scope.new_photos.push( decodeURI(params[i]));
     }
+    console.log($scope.new_photos);
 
 
     $scope.old_readonly = false;
