@@ -57,12 +57,9 @@ def getRecipe( p_no  ):
   for temp_str in c_json_list :
     all_c_json += temp_str + ','
   bigJson = '{ '+ full_p_json + ',' + '"cases":[' + all_c_json[0:-1] + ']' +' }'
-  print bigJson
+  return bigJson
 
-  """  将字符串写入文件  """
-  json_file = codecs.open('for_doctor.json','w','utf-8')
-  json_file.write(bigJson)
-  json_file.close()
+  
 
 
 if len(sys.argv) < 2 :
@@ -72,7 +69,18 @@ if len(sys.argv) < 2 :
 # 从命令行参数中取 病历号
 patient_no = sys.argv[1]
 
-getRecipe( patient_no )
+all_json = "[  "
+no_list = patient_no.split(',')
+for p_no in no_list:
+  p_json_str = getRecipe( p_no )
+  all_json += p_json_str + ','
+
+
+"""  将字符串写入文件  """
+json_file = codecs.open('for_doctor.json','w','utf-8')
+json_file.write(all_json[0:-1] + ']')
+json_file.close()
+
 
      
 
