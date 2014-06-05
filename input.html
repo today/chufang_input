@@ -85,7 +85,7 @@
 
 
           <input type="hidden" value=" 测试: 显示数据 " ng-click="test001()"  />
-          <input type="hidden" value=" 测试: 填充数据 " ng-click="test002()"  />
+          <input type="text" value=" 测试: 填充数据 " ng-click="test002()"  />
         </div>
 
       </div>
@@ -141,7 +141,14 @@
 
     $scope.saveCase = function() {
       
-      $scope.newdata.case.images = $scope.new_photos;
+      $scope.newdata.case.images = []; // $scope.new_photos;
+
+      console.log("ZZZZZZZZ:" + $scope.new_photos.length);
+
+      for( i=0; i < $scope.new_photos.length; i++) {
+        console.log("ZZZZZZZZ:" + i);
+        $scope.newdata.case.images.push( $scope.newdata.case.case_no + "_" + $scope.new_photos[i] ) ;
+      }
 
       var aStr = JSON.stringify($scope.newdata);
       // Write a file:
@@ -150,7 +157,7 @@
       
       // 把用过的照片移动到 old_photos 目录中去。
       for( i=0; i<$scope.new_photos.length; i++ ){
-        fs.renameSync("new_photos/" + $scope.new_photos[i], "old_photos/" + $scope.new_photos[i]);
+        fs.renameSync("new_photos/" + $scope.new_photos[i], "old_photos/" + $scope.newdata.case.images[i]);
       }
 
 
