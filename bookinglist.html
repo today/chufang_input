@@ -49,6 +49,9 @@
   var inputApp = angular.module('inputApp', []);
 
   function Ctrl($scope) {
+    var process = require('child_process');
+    var os = require('os');
+
     $scope.fields = {};
     $scope.datas = {};
 
@@ -56,7 +59,7 @@
     //$scope.fields.case_no= "";
     
 
-    var objDate = new Date(); 
+    var objDate = new Date();
     $scope.fields.treat_date = objDate;
     $scope.selected_date = objDate;
 
@@ -79,8 +82,7 @@
     // 从预约模块，拷贝预约数据到本模块的data目录下。
     $scope.import_booking = function() {
       console.log( "import_booking Start." );
-      var process = require('child_process');
-      var os = require('os');
+      
       
       dos_cmd = 'copy ..\\FRT_booking\\data\\*.json .\\data\\';
       osx_sh  = 'cp ../FRT_booking/data/*.json ./data/';
@@ -107,10 +109,20 @@
     };
 
     $scope.getHistory = function() {
-      console.log(filename);
-      patient_list = "48,52,56,57";
+      
+      patient_list = [];
+      var temp_list = $scope.datas.bookinglist;
 
-      process.exec('python getHistory.py "' + patient_list + '"' ,
+      var num = temp_list.length;
+      for( i=0; i< num; i++) {
+        var p_no = temp_list[i].patient_no;
+        if( !("0" == p_no || 0==p_no) ){
+          patient_list.push(p_no);
+        }
+      }
+      console.log( "#"+patient_list.join(",") + "#");
+
+      process.exec('python fromdb.py "' + patient_list.join(",") + '"' ,
         function (error, stdout, stderr) {
           if (error !== null) {
             console.log('exec error: ' + error);
