@@ -77,7 +77,7 @@ for p_no in no_list:
 
 
 """  将字符串写入文件  """
-json_file = codecs.open('for_doctor.json','w','utf-8')
+json_file = codecs.open('../FRT_aid/data/for_doctor.json','w','utf-8')
 json_file.write(all_json[0:-1] + ']')
 json_file.close()
 
