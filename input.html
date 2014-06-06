@@ -3,16 +3,14 @@
 <head>
   <meta charset="utf-8">
   <title>福润堂 处方录入</title>
-  
   <link rel="stylesheet" href="css/app.css">
   <link rel="stylesheet" href="css/bootstrap.css">
   <script type="text/javascript" src="lib/angular.js"></script>
-  <script type="text/javascript" src="lib/jquery-1.11.0.js"></script>
 </head>
 <body ng-app="inputApp" ng-controller="Ctrl">
   <span id='debug_area' style='display:none;'> 开发人员专用区域，按  `  键(ESC键下面)可隐藏。  
-    <input type="button" value=" 测试: test001 " ng-click="test001()"  />
-    <input type="button" value=" 测试: 填充数据 " ng-click="test002()"  />
+    <input type="button" value=" 测试: test001 " onclick="test001()"  />
+    <input type="button" value=" 测试: 填充数据 " onclick="test002()"  />
   </span>
   <h1 style="">福润堂 处方录入<a href="index.html" style="float:right">返回首页</a></h1> 
   <br>
@@ -30,42 +28,39 @@
     <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
     <td>
       <div><form name="form_1">
-        病历号:   <input  type="text"   ng-model="newdata.patients.patient_no" ng-readonly="false" style="width:100px" autofocus />
-        姓名:     <input  type="text"   ng-model="newdata.patients.name"     ng-readonly="old_readonly"  style="width:60px"  required/> 
+        病历号:   <input  type="text" id="id_1"  ng-model="newdata.patients.patient_no"  style="width:100px" autofocus />
+        姓名:     <input  type="text" id="id_2"  ng-model="newdata.patients.name"       style="width:60px"  required/> 
         
 
         <br/>
-        性别:     <input  type="text"    ng-model="newdata.patients.sex"       ng-readonly="old_readonly"       style="width:20px"  required/>
-        年龄:     <input  type="text"    ng-model="newdata.patients.age"       ng-readonly="old_readonly"    style="width:30px"  required/>
-        电话:     <input  type="text"    ng-model="newdata.patients.phone_no"  ng-readonly="old_readonly" style="width:100px" required/>
+        性别:     <input  type="text"  id="id_3"   ng-model="newdata.patients.sex"             style="width:20px"  required/>
+        年龄:     <input  type="text"  id="id_4"   ng-model="newdata.patients.age"           style="width:30px"  required/>
+        电话:     <input  type="text"  id="id_5"   ng-model="newdata.patients.phone_no"   style="width:100px" required/>
         <br/>
-        备注:     <textarea       ng-model="newdata.patients.comment"      ></textarea>
+        备注:     <textarea     id="id_6"   ng-model="newdata.patients.comment"      ></textarea>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
         
       </div>
       <div >
-        门诊号:   <input  type="text"   ng-model="newdata.case.case_no" style="width:100px"   />
+        门诊号:   <input  type="text" id="id_7"   ng-model="newdata.case.case_no" style="width:100px"   />
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         {{newdata.case.datetime}} &nbsp;&nbsp; 第 {{newdata.case.counts}} 次就诊
         <br/>
-        定病:     <input  type="text"    ng-model="newdata.case.dingbing"     style="width:300px"    required/><br/>
-        定性:     <input  type="text"    ng-model="newdata.case.dingxing"     style="width:300px"    required/><br/>
-        定症:     <input  type="text"    ng-model="newdata.case.dingzheng"    style="width:300px"    required/><br/>
-        备注:     <textarea              ng-model="newdata.case.comment"      style="width:300px"   ></textarea><br/>
+        定病:     <input  type="text"  id="id_8"   ng-model="newdata.case.dingbing"     style="width:300px"    required/><br/>
+        定性:     <input  type="text"  id="id_9"   ng-model="newdata.case.dingxing"     style="width:300px"    required/><br/>
+        定症:     <input  type="text"  id="id_10"   ng-model="newdata.case.dingzheng"    style="width:300px"    required/><br/>
+        备注:     <textarea            id="id_11"   ng-model="newdata.case.comment"      style="width:300px"   ></textarea><br/>
         
-
         <div style="float:left;">处方:&nbsp;</div>
         <table border="1" >
-          <tr>
-            <td></td><td>药名</td><td>用量</td><td>单位</td>
-          </tr>  
+          <tr><td></td><td>药名</td><td>用量</td><td>单位</td></tr>  
 
           <tr ng-repeat="obj in newdata.case.recipe">
             <td>&nbsp; {{$index+1}} &nbsp; </td>
-            <td><input  type="text"  name="t_m"   ng-model="obj.medicine"     required style="width:100px" /></td>
-            <td><input  type="text"  name="t_c"   ng-model="obj.count"        required style="width:40px"  /></td>
-            <td><input  type="text"  name="t_u"   ng-model="obj.unit"         required style="width:30px"  /></td>
+            <td><input  type="text"  id="{{'id_' + (id_index+($index*3)+1) }}"   ng-model="obj.medicine"     required style="width:100px" /></td>
+            <td><input  type="text"  id="{{'id_' + (id_index+($index*3)+2) }}"   ng-model="obj.count"        required style="width:40px"  /></td>
+            <td><input  type="text"  id="{{'id_' + (id_index+($index*3)+3) }}"   ng-model="obj.unit"         required style="width:30px"  /></td>
             
           </tr>
           <tr><td colspan="4">
@@ -76,7 +71,7 @@
         <div >
 
         
-        抓药数量:  <input  type="text"    ng-model="newdata.case.suitnum"      style="width:75px"    required/>
+        抓药数量:  <input  type="text"  id="id_0"   ng-model="newdata.case.suitnum"      style="width:75px"    required/>
         
         </div>
         <div>
@@ -108,6 +103,8 @@
     $scope.newdata.case = {};
     $scope.flag_save_sucess = false;
 
+    $scope.id_index = 11;
+
     $scope.new_photos = [];
     var url_param = location.href.substring(location.href.indexOf("?")+1);
     var params = url_param.split(",");
@@ -135,7 +132,7 @@
         tempObj.remark="";
 
         $scope.newdata.case.recipe.push(tempObj);
-        console.log(JSON.stringify(tempObj));
+        //console.log(JSON.stringify(tempObj));
       }
     }
     $scope.addRecipeItem(20);
@@ -205,20 +202,6 @@
       }
     };
 
-
-
-
-    $scope.test001 = function() {
-      var temp = document.forms[0];
-      
-      for (var i=0;i<temp.length;i++){  
-        console.log(temp[i].type);
-        temp[i].focus();
-        
-     }
-      
-    };
-
       $scope.test002 = function() {
         //$scope.newdata.patients = {patients_id:"00001",name:"罗辑","sex":"男","age":"46","phone_no":"18990000001","comment":"123456 abcdef"};
         $scope.newdata.case.datetime = "2014-4-23";
@@ -228,7 +211,6 @@
         $scope.newdata.case.dingzheng = "冷";
         $scope.newdata.case.comment = "987654 xyzabc";
         $scope.newdata.case.suitnum = "15";
-
 
         tempObj=new Object();
         tempObj.medicine="山楂";
@@ -253,12 +235,12 @@
         
       };
   }
-  
    
   debug_flag = 0;
   document.onkeydown = function(event) { 
     keynum = event.which;
 
+    // 这一段是用来显示隐藏debug区的。
     if (keynum==192){
       
       if( debug_flag == 0 ){
@@ -277,13 +259,35 @@
 
     //alert(keynum);
     if (keynum==13){
-        var vo = document.createEvent("KeyboardEvent");
-        vo.initKeyEvent("keypress", true, true, null, false, false, false, false, 9, 0);
-        eo.dispatchEvent( vo );
+        
+        var temp_id = event.srcElement.id;
+        if( temp_id ){
+          var str_id = temp_id.substring(3); 
+          console.log("id:" , str_id );
+          var i_id = new Number(str_id);
+          var obj = document.getElementById('id_' + (i_id + 1) );
+          if( obj ){
+            obj.focus();
+          }
+          else{
+            obj = document.getElementById( 'id_0' );
+            obj.focus();
+          }
+        }
+        else{
+          console.log("not input." );
+        }
+        
     }
-  } ;
+  };
 
-
+  var test001 = function() {
+    for( i=1; i<30; i++ ){
+      var obj = document.getElementById('id_' + i );
+      obj.focus();
+      console.log( "" + i + ":" + obj );
+    } 
+  };
 
 
   </script>
