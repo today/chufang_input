@@ -3,6 +3,7 @@ import codecs
 import json
 import MySQLdb
 import os
+import shutil
 import sys
 #import shutil
 
@@ -62,7 +63,10 @@ def getRecipe( p_no  ):
 
   return bigJson
 
-  
+def cp_img():
+  for file in os.listdir('old_photos/'): 
+    if not os.path.exists('../FRT_aid/img/' + file ):
+      shutil.copyfile( 'old_photos/' + file , '../FRT_aid/img/' + file) 
 
 
 if len(sys.argv) < 2 :
