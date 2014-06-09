@@ -60,7 +60,7 @@ def saveRecipe( recipe ):
         itemObj = itemObjs[i];
         sql5 = "INSERT INTO `t_recipe_item` (recipe_id, medicine, count, unit, remark ) VALUES ('" \
               + str(temp_c_id) + "', '" + itemObj['medicine'] + "', '" + str(itemObj['count']) + "', '" \
-              + itemObj['unit'] + "', '"+ itemObj['remark'] + "' )"
+              + itemObj['unit'] + "', '' )"
         #print sql5
         cur.execute(sql5)
         
@@ -88,9 +88,9 @@ if os.path.exists( jsonfilename) :
       # 为了去除BOM 不得不做的检查。
       if all_the_text[:3] == codecs.BOM_UTF8:  
           all_the_text = all_the_text[3:] 
-      print all_the_text
+      #print all_the_text
       recipeObject = json.loads( all_the_text )
-      print recipeObject
+      #print recipeObject
       saveRecipe( recipeObject )
 
       # 处理完的文件，移动到另外的文件夹
