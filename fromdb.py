@@ -5,7 +5,6 @@ import MySQLdb
 import os
 import shutil
 import sys
-#import shutil
 
 def getRecipe( p_no  ):
   bigJson = ""
