@@ -113,6 +113,7 @@
       patient_list = [];
       var temp_list = $scope.datas.bookinglist;
 
+      // 排除空白记录
       var num = temp_list.length;
       for( i=0; i< num; i++) {
         var p_no = temp_list[i].patient_no;

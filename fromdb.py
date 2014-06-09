@@ -60,7 +60,6 @@ def getRecipe( p_no  ):
   except MySQLdb.Error,e:
      print "Mysql Error %d: %s" % (e.args[0], e.args[1])
 
-  
   return bigJson
 
   
