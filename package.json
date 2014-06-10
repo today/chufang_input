@@ -13,7 +13,7 @@
     "fullscreen": false,
     "position": "center",
     "resizable": true,
-    "width": 1200,
+    "width": 1000,
     "height": 800
   },
   "dependencies": {
