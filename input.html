@@ -264,10 +264,12 @@
           var obj = document.getElementById('id_' + (i_id + 1) );
           if( obj ){
             obj.focus();
+            obj.select();
           }
           else{
             obj = document.getElementById( 'id_0' );
             obj.focus();
+            obj.select();
           }
         }
         else{
@@ -281,6 +283,7 @@
     for( i=1; i<30; i++ ){
       var obj = document.getElementById('id_' + i );
       obj.focus();
+      
       console.log( "" + i + ":" + obj );
     } 
   };

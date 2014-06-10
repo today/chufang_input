@@ -16,9 +16,10 @@
     <h2>病历录入 第一步 选择图片</h2>
     
     <br>
-   
+    
     <div id="new_patient_photos"  style="float:left;" >
-      <li ng-repeat="name in new_filenames " ng-click="setPhotoName(name)">
+      搜索: <input ng-model="query">
+      <li ng-repeat="name in new_filenames| filter:query " ng-click="setPhotoName(name)" >
         <img src="new_photos/{{name}}" width="160" height="120" style="float:top;" /> {{name}} 
         <br><br>
       </li>
