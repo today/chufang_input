@@ -48,13 +48,24 @@ function getBooking( aDate ){
 } 
 
 function getJson2obj( strFilename ){
-
+	var aJson = {};
 	if(fs.existsSync( strFilename) ){
 		var strBookingList = fs.readFileSync(strFilename);
 	    aJson = JSON.parse(strBookingList);
 	}
 	return aJson;
 } 
+
+function save2Json( filename, obj){
+	var jsonStr = JSON.stringify(obj);
+	// Write a file:
+	console.log( "jsonStr = ###" + jsonStr + "###" );
+	fs.writeFileSync( filename , jsonStr);
+}
+
+function getSavedCases(){
+	return getJson2obj('data/saved_cases.json');
+}
 
 /*  连接Mysql数据库   */
 function getConn(){
