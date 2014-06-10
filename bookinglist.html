@@ -38,30 +38,49 @@
         <td>{{obj.name}}</td>
         <td>{{obj.mobile}}</td>
         <td>{{obj.comment}}</td>
-        <td><input type="button" ng-click="goInput( obj.patient_no,obj.case_no )" value="录入处方信息">  </td>
+        <td><input type="button" ng-click="goInput( obj.patient_no,obj.case_no )" ng-disabled="ifSaved(obj.case_no)" value="录入处方信息">  </td>
       </tr>
     </table>
     
     </div>
   
 <script type="text/javascript">
-  
+  var _ = require('underscore');
   var inputApp = angular.module('inputApp', []);
 
   function Ctrl($scope) {
     var process = require('child_process');
     var os = require('os');
 
-    $scope.fields = {};
+    //$scope.fields = {};
     $scope.datas = {};
+    var url_param = "";
 
-    //$scope.fields.patient_no= "";
-    //$scope.fields.case_no= "";
-    
-
-    var objDate = new Date();
-    $scope.fields.treat_date = objDate;
+    var objDate = new Date();;
+    if(location.href.indexOf("?") > 0 )  {  
+        url_param = location.href.substring(location.href.indexOf("?")+1);
+        var params = url_param.split("_");
+        var param_date = params[0];
+        
+        var YMD_array = param_date.split("-");
+        objDate.setFullYear(YMD_array[0],YMD_array[1]-1,YMD_array[2]);         
+    }
     $scope.selected_date = objDate;
+    
+    $scope.savedCases = getSavedCases();
+    if( _.indexOf($scope.savedCases, url_param ) == -1 ){
+        $scope.savedCases.push(url_param);
+        save2Json("data/saved_cases.json", $scope.savedCases);
+    }
+    
+    $scope.ifSaved = function( saved_case_no ) {
+        if( _.indexOf($scope.savedCases, saved_case_no ) == -1 ){
+            return false;
+        }else{
+            return true;
+        }
+    };
+
 
     
     $scope.loadBooking = function() {
