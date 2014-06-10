@@ -44,8 +44,7 @@
       </div>
       <div >
         门诊号:   <input  type="text" id="id_7"   ng-model="newdata.case.case_no" style="width:100px"   />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        {{newdata.case.datetime}} &nbsp;&nbsp; 第 {{newdata.case.counts}} 次就诊
+        
         <br/>
         定病:     <input  type="text"  id="id_8"   ng-model="newdata.case.dingbing"     style="width:300px"    required/><br/>
         定性:     <input  type="text"  id="id_9"   ng-model="newdata.case.dingxing"     style="width:300px"    required/><br/>
@@ -163,7 +162,7 @@
 
       setTimeout(function(){
                               $scope.flag_save_sucess = false;
-                              window.location.href = "bookinglist.html" ;
+                              window.location.href = "bookinglist.html?" + $scope.newdata.case.case_no;
                             },1000);
     };
 
