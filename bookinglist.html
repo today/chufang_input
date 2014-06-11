@@ -11,15 +11,16 @@
   <script type="text/javascript" src="js/frt_input.js"></script>
 </head>
 <body ng-app="inputApp" ng-controller="Ctrl">
-
   <h1 style="">福润堂<a href="index.html" style="float:right">导航页</a></h1> 
-  <br>
-
+  
   <div style="float:left;width:600px;">
-    <h2 style="">预约记录</h2>
-    选择日期：<input type="date"   ng-model="selected_date" required style="width:150px" ng-change="loadBooking()" />
+    <h2 style="">处方录入 预约记录
     <button   ng-click="import_booking()" style="float:right;" > 导入预约数据 </button>
     <button   ng-click="getHistory()" style="float:right;" > 生成历史病历 </button>
+    </h2>
+    <br>
+    选择日期：<input type="date"   ng-model="selected_date" required style="width:150px" ng-change="loadBooking()" />
+    
     <table border="1">
       <tr>
         <th></th>
