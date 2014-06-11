@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>福润堂</title>
+  
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <script type="text/javascript" src="lib/angular.js"></script>
+  <script type="text/javascript" src="js/frt_input.js"></script>
+</head>
+<body ng-app="editApp" ng-controller="Ctrl">
+    <h1>福润堂 <a href="index.html" style="float:right">返回首页</a></h1> 
+    <h2>患者信息编辑</h2> 
+    
+    <div ng-show="!noDB" style="color:blue;">数据库连接正常。</div>
+    <br>
+    病历号: <input  type="text"    ng-model="patient_no" style="width:170px" />
+    <button ng-click="load_p()"  >取数据</button>
+    <hr/>
+
+
+    病历号:   <input  type="text"   ng-model="data_p.patient_no" ng-readonly="true" style="width:100px"  />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    姓名:     <input  type="text"   ng-model="data_p.name"         style="width:60px"  required/> 
+    <br/>
+    性别:     <input  type="text"    ng-model="data_p.sex"         style="width:20px"  required/>
+    年龄:     <input  type="text"    ng-model="data_p.age"         style="width:30px"  required/>
+    电话:     <input  type="text"    ng-model="data_p.phone_no"    style="width:99px" required/>
+    <br/>
+    备注:     <textarea       ng-model="data_p.comment"   style="width:245px"   ></textarea>
+    <br>
+    <button ng-click="save_p()"  >保存数据</button>
+
+      
+  
+      
+    
+    
+<script type="text/javascript">
+var process = require('child_process');
+
+var editApp = angular.module('editApp', []);
+
+function Ctrl($scope) {
+  $scope.noDB = false;//true;
+  $scope.patient_no = '';
+  $scope.case_no = '';
+
+  $scope.data_p = {};
+
+
+  /*  测试数据库是否可访问   */
+  $scope.ifNoDB = function (){
+    var conn = getConn();
+    conn.connect();
+    conn.query('SELECT * from t_setting', function(err, rows, fields) {
+      if (err) {
+        $scope.noDB = true;
+        $scope.$apply();
+        //console.log("XXXXXXXXXXXXXX" + $scope.noDB );
+      }else{
+        $scope.noDB = false;
+        $scope.$apply();
+        //console.log("OOOOOOOOOOOOOO" + $scope.noDB );
+      }
+    });
+    conn.end();
+  };
+  
+  $scope.load_p = function(filename) {
+    process.exec('python db.py load_p "' + $scope.patient_no + '"' ,
+      function (error, stdout, stderr) {
+        if (error !== null) {
+          console.log('exec error: ' + error);
+        }
+        console.log('stdout: ' + stdout);
+        $scope.data_p = JSON.parse(stdout);
+        $scope.$apply();
+        
+    });
+  };
+
+  
+
+  
+}
+
+</script>
+</body>
+</html>
+
+
+
+

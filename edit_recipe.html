@@ -12,29 +12,31 @@
 <body ng-app="editApp" ng-controller="Ctrl">
     <h1>福润堂 <a href="index.html" style="float:right">返回首页</a>
        </h1> 
-    <h2>编辑数据   <button ng-click="ifNoDB()" style="float:right;" >连接数据库</button></h2> 
-    <br/>
-    <span ng-show="!noDB" style="color:blue;float:right">数据库连接正常，可以上传数据。</span>
+    <h2>编辑数据</h2> 
+    
+    <span ng-show="!noDB" style="color:blue;">数据库连接正常。</span>
 
     <table><tr><td>
         <h3>患者信息编辑：</h3>
-        病历号 <input  type="text"    ng-model="patient_no"  />
+        病历号: <input  type="text"    ng-model="patient_no" style="width:170px" />
         <button ng-click="load_p()"  >取数据</button>
-        <button ng-click="save_p()"  >保存</button><br/>
+        <hr/>
 
 
-        病历号:   <input  type="text"   ng-model="data_p.patient_no" ng-readonly="false" style="width:100px"  />
-        姓名:     <input  type="text"   ng-model="data_p.name"     ng-readonly="old_readonly"  style="width:60px"  required/> 
+        病历号:   <input  type="text"   ng-model="data_p.patient_no" ng-readonly="true" style="width:100px"  />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        姓名:     <input  type="text"   ng-model="data_p.name"         style="width:60px"  required/> 
         <br/>
-        性别:     <input  type="text"    ng-model="data_p.sex"       ng-readonly="old_readonly"       style="width:20px"  required/>
-        年龄:     <input  type="text"    ng-model="data_p.age"       ng-readonly="old_readonly"    style="width:30px"  required/>
-        电话:     <input  type="text"    ng-model="data_p.phone_no"  ng-readonly="old_readonly" style="width:100px" required/>
+        性别:     <input  type="text"    ng-model="data_p.sex"         style="width:20px"  required/>
+        年龄:     <input  type="text"    ng-model="data_p.age"         style="width:30px"  required/>
+        电话:     <input  type="text"    ng-model="data_p.phone_no"    style="width:99px" required/>
         <br/>
-        备注:     <textarea       ng-model="data_p.comment"      ></textarea>
-
+        备注:     <textarea       ng-model="data_p.comment"   style="width:245px"   ></textarea>
+        <br>
+        <button ng-click="save_p()"  >保存数据</button>
 
       </td>
-      <td width="40px;"> </td>
+      <td width="80px;"> </td>
       <td>
         <h3>处方信息编辑：</h3>
         处方号 <input  type="text"    ng-model="case_no"     />
