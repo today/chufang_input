@@ -29,16 +29,16 @@
     <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
     <td>
       <div><form name="form_1">
-        病历号:   <input  type="text" id="id_1"  ng-model="newdata.patients.patient_no"  style="width:100px" autofocus />
-        姓名:     <input  type="text" id="id_2"  ng-model="newdata.patients.name"       style="width:60px"  required/> 
+        病历号:   <input  type="text" id="id_1"  ng-model="newdata.case.patient_no"  style="width:100px" autofocus />
+        姓名:     <input  type="text" id="id_2"  ng-model="newdata.case.name"       style="width:60px"  required/> 
         
 
         <br/>
-        性别:     <input  type="text"  id="id_3"   ng-model="newdata.patients.sex"             style="width:20px"  required/>
-        年龄:     <input  type="text"  id="id_4"   ng-model="newdata.patients.age"           style="width:30px"  required/>
-        电话:     <input  type="text"  id="id_5"   ng-model="newdata.patients.phone_no"   style="width:100px" required/>
+        性别:     <input  type="text"  id="id_3"   ng-model="newdata.case.sex"             style="width:20px"  required/>
+        年龄:     <input  type="text"  id="id_4"   ng-model="newdata.case.age"           style="width:30px"  required/>
+        电话:     <input  type="text"  id="id_5"   ng-model="newdata.case.mobile"   style="width:100px" required/>
         <br/>
-        备注:     <textarea     id="id_6"   ng-model="newdata.patients.comment"      ></textarea>
+        备注:     <textarea     id="id_6"   ng-model="newdata.case.patient_comment"      ></textarea>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
         
@@ -107,7 +107,7 @@
     $scope.new_photos = [];
     var url_param = location.href.substring(location.href.indexOf("?")+1);
     var params = url_param.split(",");
-    $scope.newdata.patients.patient_no = params[0];
+    $scope.newdata.case.patient_no = params[0];
     $scope.newdata.case.case_no = params[1];
 
     for( i=2; i<params.length; i++ ){
@@ -167,7 +167,7 @@
                             },1000);
     };
 
-    // 根据电话号码，找出患者信息。
+    // 根据电话号码，找出患者信息。  这个函数暂时无效
     $scope.findInfo = function() {
       $scope.old_show = false;
 
@@ -178,16 +178,15 @@
         database = JSON.parse(strBookingList);
         
         var findObj = {};
-        findObj.patient_no = $scope.newdata.patients.patient_no;
+        findObj.patient_no = $scope.newdata.case.patient_no;
         //console.log(database.patient_list[0]);
         //console.log(findObj);
         var tempObj = _.findWhere(database.patient_list, findObj );
         
-
         if(tempObj){
-          $scope.newdata.patients.name = tempObj.patient_name;
-          $scope.newdata.patients.phone_no = tempObj.mobile;
-          $scope.newdata.patients.comment = tempObj.comment;
+          $scope.newdata.case.name = tempObj.patient_name;
+          $scope.newdata.case.phone_no = tempObj.mobile;
+          $scope.newdata.case.patient_comment = tempObj.comment;
 
           $scope.old_readonly = true;
           $scope.old_show = false;
@@ -195,15 +194,20 @@
           // todo  新患者提示
           $scope.old_show = true;
         }
-        
       }else{
         // todo  出错提示，存放患者信息的json文件不存在。
       }
     };
 
     $scope.test002 = function() {
-      $scope.newdata.patients = {patient_no:"00001",name:"罗辑","sex":"男","age":"46","phone_no":"18990000001","comment":"123456 abcdef"};
-      $scope.newdata.case.datetime = "2014-4-23";
+      
+      $scope.newdata.case.patient_no = "00001";
+      $scope.newdata.case.name = "罗辑";
+      $scope.newdata.case.sex = "男";
+      $scope.newdata.case.age = "46";
+      $scope.newdata.case.mobile = "18990000001";
+      $scope.newdata.case.patient_comment = "123456 abcdef";
+      
       $scope.newdata.case.counts = "4";
       $scope.newdata.case.dingxing = "寒";
       $scope.newdata.case.dingbing = "寒症";
@@ -228,8 +232,7 @@
       tempObj.count=20;
       tempObj.unit="克";
       $scope.newdata.case.recipe[2] = (tempObj);
-      
-  };
+    };
       
   }
    
