@@ -11,11 +11,11 @@
 </head>
 <body ng-app="editApp" ng-controller="Ctrl">
     <h1>福润堂 <a href="index.html" style="float:right">导航页</a></h1> 
-    <h2>处方信息编辑</h2> 
+    <h2>处方信息修改</h2> 
     
     <div ng-show="!noDB" style="color:blue;">数据库连接正常。</div>
     <br>
-    处方号: <input  type="text"    ng-model="recipe_no" style="width:170px" />
+    处方号: <input  type="text"    ng-model="recipe_no" autofocus style="width:170px" />
     <button ng-click="load_c()"  >取数据</button>
     <hr/>
     <div ng-repeat="img in case.images"  style="float:right;" >
@@ -24,7 +24,17 @@
 
     处方编号：{{case.case_no}}<br>
 
-    姓名:     <input  type="text"  id="id_2"   ng-model="case.patient_name"  style="width:60px"     required/><br/>
+    病历号:   <input  type="text" id="id_1"  ng-model="case.patient_no"  style="width:100px"  />
+    姓名:     <input  type="text" id="id_2"  ng-model="case.patient_name"        style="width:60px"  required/> 
+
+    <br/>
+    性别:     <input  type="text"  id="id_3"   ng-model="case.sex"      style="width:20px"  required/>
+    年龄:     <input  type="text"  id="id_4"   ng-model="case.age"      style="width:30px"  required/>
+    电话:     <input  type="text"  id="id_5"   ng-model="case.mobile"   style="width:100px" required/>
+    <br/>
+    备注:     <textarea     id="id_6"   ng-model="case.patient_comment"      ></textarea>
+    <br/>
+
     定病:     <input  type="text"  id="id_8"   ng-model="case.dingbing"      style="width:300px"    required/><br/>
     定性:     <input  type="text"  id="id_9"   ng-model="case.dingxing"      style="width:300px"    required/><br/>
     定症:     <input  type="text"  id="id_10"  ng-model="case.dingzheng"     style="width:300px"    required/><br/>

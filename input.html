@@ -30,7 +30,7 @@
     <td>
       <div><form name="form_1">
         病历号:   <input  type="text" id="id_1"  ng-model="newdata.case.patient_no"  style="width:100px" autofocus />
-        姓名:     <input  type="text" id="id_2"  ng-model="newdata.case.name"       style="width:60px"  required/> 
+        姓名:     <input  type="text" id="id_2"  ng-model="newdata.case.patient_name"       style="width:60px"  required/> 
         
 
         <br/>
@@ -202,7 +202,7 @@
     $scope.test002 = function() {
       
       $scope.newdata.case.patient_no = "00001";
-      $scope.newdata.case.name = "罗辑";
+      $scope.newdata.case.patient_name = "罗辑";
       $scope.newdata.case.sex = "男";
       $scope.newdata.case.age = "46";
       $scope.newdata.case.mobile = "18990000001";

@@ -49,7 +49,7 @@ def saveRecipe( recipe ):
             + "`patient_name`, `mobile`, `age`, `sex`, `patient_comment`, " \
             + "`dingxing`, `dingbing`, `dingzheng`, `comment`, " + "`suitnum`, `json_id`) VALUES " \
             + " ( '"+ caseObj['case_no'] + "', '" + "0" +"', '" + caseObj['patient_no']  \
-            + "', '" + caseObj['name'] + "', '"+ caseObj['mobile'] + "', '" + caseObj['age']  \
+            + "', '" + caseObj['patient_name'] + "', '"+ caseObj['mobile'] + "', '" + caseObj['age']  \
             + "', '" + caseObj['sex'] + "', '"+ caseObj['patient_comment'] + "', '" + caseObj['dingxing']  \
             + "', '"+ caseObj['dingbing'] + "', '"+ caseObj['dingzheng'] +"', '"+ caseObj['comment']  \
             + "', '"+ caseObj['suitnum'] + "', '"+ str(temp_c_json_id) +"' )"
