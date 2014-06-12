@@ -44,7 +44,7 @@ def get_c( c_no ):
       cur=conn.cursor()
       
       """ 取出处方信息的Json_id  """
-      sql1 = "select json_id from t_recipe where  recipe_no='"+ c_no + "' "
+      sql1 = "select json_id from t_recipe where  recipe_no='"+ c_no + "' order by id desc "
       #print sql1  
       cur.execute(sql1)
       result=cur.fetchone()

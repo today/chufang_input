@@ -7,19 +7,13 @@ import os
 import sys
 #import shutil
 
-def saveRecipe( recipe ):
-  patientObj = recipeObject['patients']
-  caseObj = recipeObject['case']
-
-  #setDefValue( patientObj, ('patient_no','name','sex','age','phone_no','comment') )
-  setDefValue( caseObj, ( 'case_no','mobile','patient_no','patient_name','age','sex','patient_comment','dingxing','dingbing' , 'dingzheng','suitnum','comment') )
+def saveNewRecipe( recipe_str ):
   
-  #caseJson = json.dumps(caseObj, ensure_ascii=False,indent=2)
-
-  caseJson = json.dumps(caseObj, ensure_ascii=False)
-  patientJson = json.dumps(patientObj,ensure_ascii=False)
-  #print caseJson
-  #print patientJson
+  # json 串转 py  对象
+  caseObj = json.loads(recipe_str)
+  #setDefValue( patientObj, ('patient_no','name','sex','age','phone_no','comment') )
+  setDefValue( caseObj, ( 'mobile','dingxing','dingbing' , 'dingzheng','suitnum','comment') )
+  
 
   try:
       conn=MySQLdb.connect(host='localhost',user='root',passwd='',port=3306,db='frt', charset='utf8')
@@ -30,7 +24,7 @@ def saveRecipe( recipe ):
       cur.execute(sql1)
       temp_p_json_id = conn.insert_id()    """
       
-      sql2 = "insert into t_json (json_string) values ('"+ caseJson + "')"
+      sql2 = "insert into t_json (json_string) values ('"+ recipe_str + "')"
       cur.execute(sql2)
       temp_c_json_id = conn.insert_id()
 
@@ -52,6 +46,7 @@ def saveRecipe( recipe ):
             + "', '" + caseObj['sex'] + "', '"+ caseObj['patient_comment'] + "', '" + caseObj['dingxing']  \
             + "', '"+ caseObj['dingbing'] + "', '"+ caseObj['dingzheng'] +"', '"+ caseObj['comment']  \
             + "', '"+ caseObj['suitnum'] + "', '"+ str(temp_c_json_id) +"' )"
+      #print sql4
       cur.execute(sql4)
       temp_c_id = conn.insert_id()
 
@@ -64,7 +59,12 @@ def saveRecipe( recipe ):
               + itemObj['unit'] + "', '' )"
         #print sql5
         cur.execute(sql5)
-        
+      
+      # 删除原有数据
+      # 删除 t_json 表中的数据
+      # 删除 t_recipe 表中的数据
+
+
       conn.commit()
       cur.close()
       conn.close()
@@ -76,35 +76,36 @@ def setDefValue( aDict, akey_list ):
   for akey in akey_list :
     if not aDict.has_key( akey ):
       aDict[akey] = ''
+
       
 
 all_the_text = ""
-jsonfilename = 'data/case/' + sys.argv[1]
-
+jsonfilename = 'data/' + sys.argv[1]
+print jsonfilename
 
 if os.path.exists( jsonfilename) :
   file_object = open(jsonfilename)
   try:
       all_the_text = file_object.read()
       # 为了去除BOM 不得不做的检查。
-      if all_the_text[:3] == codecs.BOM_UTF8:  
+      if all_the_text[:3] == codecs.BOM_UTF8: 
+          print "has BOM , Process it ." 
           all_the_text = all_the_text[3:] 
       #print all_the_text
-      recipeObject = json.loads( all_the_text )
-      #print recipeObject
-      saveRecipe( recipeObject )
+      
+      saveNewRecipe( all_the_text )
 
       # 处理完的文件，移动到另外的文件夹
-      os.rename( jsonfilename, 'data/case_saved/' + sys.argv[1])
-  except Exception as inst:
-      print type(inst)     # the exception instance
-      print inst.args      # arguments stored in .args
-      print inst           # __str__ allows args to printed directly
+      #os.rename( jsonfilename, 'data/case_saved/' + sys.argv[1])
+  # except Exception as inst:
+  #     print type(inst)     # the exception instance
+  #     print inst.args      # arguments stored in .args
+  #     print inst           # __str__ allows args to printed directly
       
   finally:
        file_object.close( )
 else:
-  print "FRT Error : file not exist."
+  print "FRT Error : file not exist. filename:" + jsonfilename
 
 
 
