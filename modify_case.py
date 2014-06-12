@@ -62,8 +62,15 @@ def saveNewRecipe( recipe_str ):
       
       # 删除原有数据
       # 删除 t_json 表中的数据
-      # 删除 t_recipe 表中的数据
+      sql6 = "DELETE  FROM t_json WHERE id in ( select json_id from t_recipe WHERE recipe_no='" \
+                                              + caseObj['case_no'] + "' AND id != '" + str(temp_c_id) + "')"
+      print sql6
+      cur.execute(sql6)
 
+      # 删除 t_recipe 表中的数据
+      sql7 = "DELETE  FROM t_recipe WHERE recipe_no='" + caseObj['case_no'] + "' AND id != '" + str(temp_c_id) + "'"
+      print sql7
+      cur.execute(sql7)
 
       conn.commit()
       cur.close()
