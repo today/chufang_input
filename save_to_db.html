@@ -37,7 +37,7 @@ function Ctrl($scope) {
   var jsonFiles = [];
   // 筛选出 JSon 文件
   files.forEach(function(fileName, index) {
-    if( ".json" === path.extname(fileName) ){
+    if( ".json" === path.extname(fileName) && !(fileName.indexOf(".") === 0) ){
       jsonFiles.push(fileName);
     }
     //console.log( path.extname(fileName) );
