@@ -24,3 +24,11 @@ hr {
 	margin-left:-150px;
 	margin-top:-75px;
 }
+
+
+input[disabled]
+{
+
+  color: #CCCCCC;
+  
+}
