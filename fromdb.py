@@ -87,6 +87,8 @@ json_file = codecs.open('../FRT_aid/data/for_doctor.json','w','utf-8')
 json_file.write(all_json[0:-1] + ']')
 json_file.close()
 
+cp_img()
+
 
      
 
