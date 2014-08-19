@@ -29,16 +29,16 @@
     <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
     <td>
       <div><form name="form_1">
-        病历号:   <input  type="text" id="id_1"  ng-model="newdata.case.patient_no"  style="width:100px" autofocus />
+        病历号:   <input  type="text" id="id_1"  ng-model="newdata.case.patient_no"  style="width:100px"  />
         姓名:     <input  type="text" id="id_2"  ng-model="newdata.case.patient_name"       style="width:60px"  required/> 
         
 
         <br/>
-        性别:     <input  type="text"  id="id_3"   ng-model="newdata.case.sex"             style="width:20px"  required/>
+        性别:     <input  type="text"  id="id_3"   ng-model="newdata.case.sex"             style="width:20px" autofocus required/>
         年龄:     <input  type="text"  id="id_4"   ng-model="newdata.case.age"           style="width:30px"  required/>
         电话:     <input  type="text"  id="id_5"   ng-model="newdata.case.mobile"   style="width:100px" required/>
         <br/>
-        备注:     <textarea     id="id_6"   ng-model="newdata.case.patient_comment"      ></textarea>
+        备注:     <textarea     id="id_6_skip"   ng-model="newdata.case.patient_comment"      ></textarea>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
         
@@ -109,13 +109,15 @@
     var params = url_param.split(",");
     $scope.newdata.case.patient_no = params[0];
     $scope.newdata.case.case_no = params[1];
+    $scope.newdata.case.patient_name = decodeURI(params[2]);
+    $scope.newdata.case.mobile = params[3];
+    $scope.newdata.case.patient_comment = decodeURI(params[4]);
 
-    for( i=2; i<params.length; i++ ){
+    for( i=5; i<params.length; i++ ){
       // 必须进行解码，以应对中文字符被编码为这样的串  %E4%B8%AD%E6%96%87  的情况
       $scope.new_photos.push( decodeURI(params[i]));
+      console.log($scope.new_photos);
     }
-    console.log($scope.new_photos);
-
 
     $scope.old_readonly = false;
     $scope.old_show = false;
@@ -260,26 +262,34 @@
     //alert(keynum);
     if (keynum==13){
         
+        var skip_num = 0;
         var temp_id = event.srcElement.id;
         if( temp_id ){
           var str_id = temp_id.substring(3); 
-          console.log("id:" , str_id );
+          //console.log("id:" , str_id );
           var i_id = new Number(str_id);
-          var obj = document.getElementById('id_' + (i_id + 1) );
-          if( obj ){
-            obj.focus();
-            obj.select();
+
+          while ( skip_num < 5 ){  // allow skip num , 
+            
+            var obj = document.getElementById('id_' + (i_id + 1 + skip_num) );
+            if( obj ){
+              obj.focus();
+              obj.select();
+              return;
+            }
+            skip_num++;
           }
-          else{
-            obj = document.getElementById( 'id_0' );
-            obj.focus();
-            obj.select();
-          }
+          
+          // loop to 0
+          obj = document.getElementById( 'id_0' );
+          obj.focus();
+          obj.select();
+          
         }
         else{
           console.log("not input." );
         }
-        
+        return;
     }
   };
 

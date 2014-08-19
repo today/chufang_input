@@ -43,8 +43,9 @@ var imglistApp = angular.module('imglistApp', []);
 
 function Ctrl($scope) {
   var url_param = location.href.substring(location.href.indexOf("?")+1);
-    
+  var params = url_param.split(",");  
   
+  $scope.query = decodeURI(params[2]);
   $scope.new_patient = "";
   $scope.big_photo = true;
   

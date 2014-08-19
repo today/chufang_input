@@ -39,7 +39,7 @@
         <td>{{obj.name}}</td>
         <td>{{obj.mobile}}</td>
         <td>{{obj.comment}}</td>
-        <td><input type="button" ng-click="goInput( obj.patient_no,obj.case_no )" ng-disabled="ifSaved(obj.case_no)" value="录入处方信息">  </td>
+        <td><input type="button" ng-click="goInput( obj )" ng-disabled="ifSaved(obj.case_no)" value="录入处方信息">  </td>
       </tr>
     </table>
     
@@ -88,10 +88,11 @@
       $scope.datas = getBooking($scope.selected_date);
     };
 
-    $scope.goInput = function( patient_no, case_no) {
-      console.log( "patien_no=" + patient_no );
-      console.log( "case_no=" + case_no );
-      target_url = "img_list.html?" + patient_no + ","+ case_no; 
+    $scope.goInput = function( pObj ) {
+      //console.log( "patien_no=" + patient_no );
+      //console.log( "case_no=" + case_no );
+
+      target_url = "img_list.html?" + pObj.patient_no + ","+ pObj.case_no+ ","+ pObj.name+ ","+ pObj.mobile+ ","+ pObj.comment; 
       window.location.href = target_url ;
     };
     
