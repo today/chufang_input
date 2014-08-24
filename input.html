@@ -5,6 +5,11 @@
   <title>福润堂 处方录入</title>
   <link rel="stylesheet" href="css/app.css">
   <link rel="stylesheet" href="css/bootstrap.css">
+  <style type="text/css">
+    input.ng-invalid.ng-dirty, input.ng-invalid.ng-invalid {
+      background-color: yellow;
+    }
+  </style>
   <script type="text/javascript" src="lib/angular.js"></script>
 </head>
 <body ng-app="inputApp" ng-controller="Ctrl">
@@ -28,15 +33,15 @@
     </td>
     <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
     <td>
-      <div><form name="form_1">
-        病历号:   <input  type="text" id="id_1"  ng-model="newdata.case.patient_no"  style="width:100px"  />
+      <div><form name="form_1"  >
+        病历号:   <input  type="text" id="id_1"  ng-model="newdata.case.patient_no"  style="width:100px"  required />
         姓名:     <input  type="text" id="id_2"  ng-model="newdata.case.patient_name"       style="width:60px"  required/> 
         
 
         <br/>
         性别:     <input  type="text"  id="id_3"   ng-model="newdata.case.sex"             style="width:20px" autofocus required/>
-        年龄:     <input  type="text"  id="id_4"   ng-model="newdata.case.age"           style="width:30px"  required/>
-        电话:     <input  type="text"  id="id_5"   ng-model="newdata.case.mobile"   style="width:100px" required/>
+        年龄:     <input  type="number"  id="id_4"   ng-model="newdata.case.age"           style="width:30px"  required/>
+        电话:     <input  type="text"  id="id_5"   ng-model="newdata.case.mobile"   style="width:100px" required ng-pattern="/[0-9]/" />
         <br/>
         备注:     <textarea     id="id_6_skip"   ng-model="newdata.case.patient_comment"      ></textarea>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -44,12 +49,12 @@
         
       </div>
       <div >
-        门诊号:   <input  type="text" id="id_7"   ng-model="newdata.case.case_no" style="width:100px"   />
+        门诊号:   <input  type="text" id="id_7"   ng-model="newdata.case.case_no" style="width:100px"  required />
         
         <br/>
-        定病:     <input  type="text"  id="id_8"   ng-model="newdata.case.dingbing"     style="width:300px"    required/><br/>
-        定性:     <input  type="text"  id="id_9"   ng-model="newdata.case.dingxing"     style="width:300px"    required/><br/>
-        定症:     <input  type="text"  id="id_10"   ng-model="newdata.case.dingzheng"    style="width:300px"    required/><br/>
+        定病:     <input  type="text"  id="id_8"   ng-model="newdata.case.dingbing"     style="width:300px"    /><br/>
+        定性:     <input  type="text"  id="id_9"   ng-model="newdata.case.dingxing"     style="width:300px"    /><br/>
+        定症:     <input  type="text"  id="id_10"   ng-model="newdata.case.dingzheng"    style="width:300px"   /><br/>
         备注:     <textarea            id="id_11"   ng-model="newdata.case.comment"      style="width:300px"   ></textarea><br/>
         
         <div style="float:left;">处方:&nbsp;</div>
@@ -58,9 +63,10 @@
 
           <tr ng-repeat="obj in newdata.case.recipe">
             <td>&nbsp; {{$index+1}} &nbsp; </td>
-            <td><input  type="text"  id="{{'id_' + (id_index+($index*3)+1) }}"   ng-model="obj.medicine"     required style="width:100px" /></td>
-            <td><input  type="text"  id="{{'id_' + (id_index+($index*3)+2) }}"   ng-model="obj.count"        required style="width:40px"  /></td>
-            <td><input  type="text"  id="{{'id_' + (id_index+($index*3)+3) }}"   ng-model="obj.unit"         required style="width:30px"  /></td>
+            <td><input  type="text"    id="{{'id_' + (id_index+($index*3)+1) }}"  ng-model="obj.medicine"   style="width:100px" /></td>
+            <td><input  type="number"  id="{{'id_' + (id_index+($index*3)+2) }}"  ng-model="obj.count"      style="width:40px" 
+            min="1" /></td>
+            <td><input  type="text"    id="{{'id_' + (id_index+($index*3)+3) }}"  ng-model="obj.unit"       style="width:30px"  /></td>
             
           </tr>
           <tr><td colspan="4">
@@ -78,7 +84,7 @@
         <div style="float:bottom;">
           
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <input type="button" value=" 保存处方信息 "   ng-click="saveCase()"  />
+          <input type="button" value=" 保存处方信息 "   ng-click="saveCase()"   />
     
         </div>
 
@@ -107,11 +113,13 @@
     $scope.new_photos = [];
     var url_param = location.href.substring(location.href.indexOf("?")+1);
     var params = url_param.split(",");
+    //alert(params[0]);
     $scope.newdata.case.patient_no = params[0];
     $scope.newdata.case.case_no = params[1];
     $scope.newdata.case.patient_name = decodeURI(params[2]);
     $scope.newdata.case.mobile = params[3];
     $scope.newdata.case.patient_comment = decodeURI(params[4]);
+    //$scope.$apply(); 
 
     for( i=5; i<params.length; i++ ){
       // 必须进行解码，以应对中文字符被编码为这样的串  %E4%B8%AD%E6%96%87  的情况
@@ -140,6 +148,13 @@
     
 
     $scope.saveCase = function() {
+      if ($scope.form_1.$valid) {
+        //alert('输入正确。');
+        //return;
+      } else {
+        alert('输入错误，请检查。');
+        return;
+      }
       
       $scope.newdata.case.images = []; // $scope.new_photos;
 
