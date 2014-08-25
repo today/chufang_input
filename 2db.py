@@ -7,9 +7,9 @@ import os
 import sys
 #import shutil
 
-def saveRecipe( recipe ):
-  patientObj = recipeObject['patients']
-  caseObj = recipeObject['case']
+def saveRecipe( recipeObj ):
+  patientObj = recipeObj['patients']
+  caseObj = recipeObj['case']
 
   setDefValue( patientObj, ('patient_no','name','sex','age','phone_no','comment') )
   setDefValue( caseObj, ( 'case_no','dingxing','dingbing' , 'dingzheng','suitnum','comment') )
@@ -28,10 +28,12 @@ def saveRecipe( recipe ):
       
       """ json串插入数据库  """
       sql1 = "insert into t_json (json_string) values ('"+ patientJson + "')"
+      #print sql1
       cur.execute(sql1)
       temp_p_json_id = conn.insert_id()
       
       sql2 = "insert into t_json (json_string) values ('"+ caseJson + "')"
+      #print 'sql2'
       cur.execute(sql2)
       temp_c_json_id = conn.insert_id()
 
@@ -41,6 +43,7 @@ def saveRecipe( recipe ):
             + "','" + patientObj['sex'] + "','"+patientObj['age'] \
             + "','"+  patientObj['phone_no'] + "','" \
             + patientObj['comment'] + "','" + str(temp_p_json_id) +"'); " 
+      #print 'sql3'
       cur.execute(sql3)
       temp_p_id = conn.insert_id()
 
@@ -51,19 +54,19 @@ def saveRecipe( recipe ):
             + "', '" + patientObj['name'] + "', '"+ patientObj['phone_no'] + "', '" + caseObj['dingxing']  \
             + "', '"+ caseObj['dingbing'] + "', '"+ caseObj['dingzheng'] +"', '"+ caseObj['comment']  \
             + "', '"+ caseObj['suitnum'] + "', '"+ str(temp_c_json_id) +"' )"
+      #print 'sql4'
       cur.execute(sql4)
       temp_c_id = conn.insert_id()
 
       """  循环插入处方中的药物信息  """
-      
-      itemObjs = recipeObject['recipe']
-      print itemObjs
+      itemObjs = caseObj['recipe']
       for i in range(0, len(itemObjs)-1):
         itemObj = itemObjs[i];
+
         sql5 = "INSERT INTO `t_recipe_item` (recipe_id, medicine, count, unit, remark ) VALUES ('" \
               + str(temp_c_id) + "', '" + itemObj['medicine'] + "', '" + str(itemObj['count']) + "', '" \
               + itemObj['unit'] + "', '' )"
-        #print sql5
+        
         cur.execute(sql5)
         
       conn.commit()

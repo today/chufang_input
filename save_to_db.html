@@ -65,13 +65,15 @@ function Ctrl($scope) {
   
   $scope.save2db = function(filename) {
     console.log(filename);
-    process.exec('python 2db.py "' + filename + '"' ,
+    cmd_str = 'python 2db.py "' + filename + '"';
+    console.log(cmd_str);
+    process.exec(cmd_str ,
       function (error, stdout, stderr) {
         if (error !== null) {
           console.log('exec error: ' + error);
         }
         console.log('stdout: ' + stdout);
-        //location.reload(true);
+        location.reload(true);
     });
   };
 
