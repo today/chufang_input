@@ -11,10 +11,9 @@ def saveRecipe( recipeObj ):
   patientObj = recipeObj['patients']
   caseObj = recipeObj['case']
 
-  setDefValue( patientObj, ('patient_no','name','sex','age','phone_no','comment') )
-  setDefValue( caseObj, ( 'case_no','dingxing','dingbing' , 'dingzheng','suitnum','comment') )
+  #setDefValue( patientObj, ('patient_no','name','sex','age','phone_no','comment') )
+  setDefValue( caseObj, ( 'case_no','mobile','patient_no','patient_name','age','sex','patient_comment','dingxing','dingbing' , 'dingzheng','suitnum','comment') )
   
-
   #caseJson = json.dumps(caseObj, ensure_ascii=False,indent=2)
 
   caseJson = json.dumps(caseObj, ensure_ascii=False)
@@ -26,47 +25,47 @@ def saveRecipe( recipeObj ):
       conn=MySQLdb.connect(host='localhost',user='root',passwd='',port=3306,db='frt', charset='utf8')
       cur=conn.cursor()
       
-      """ json串插入数据库  """
+      """ json串插入数据库  
       sql1 = "insert into t_json (json_string) values ('"+ patientJson + "')"
-      #print sql1
       cur.execute(sql1)
-      temp_p_json_id = conn.insert_id()
+      temp_p_json_id = conn.insert_id()    """
       
       sql2 = "insert into t_json (json_string) values ('"+ caseJson + "')"
-      #print 'sql2'
       cur.execute(sql2)
       temp_c_json_id = conn.insert_id()
 
-      """  患者信息插入数据库  """
+      """  患者信息插入数据库  
       sql3 = "insert into t_patient (patient_no, patient_name, sex, age, mobile, comment, json_id) values " \
             + "('" + patientObj['patient_no'] + "','" + patientObj['name'] \
             + "','" + patientObj['sex'] + "','"+patientObj['age'] \
             + "','"+  patientObj['phone_no'] + "','" \
             + patientObj['comment'] + "','" + str(temp_p_json_id) +"'); " 
-      #print 'sql3'
       cur.execute(sql3)
-      temp_p_id = conn.insert_id()
+      temp_p_id = conn.insert_id()     """
 
       """  处方信息插入数据库  """
-      sql4 = "INSERT INTO `t_recipe` ( `recipe_no`, `patient_id`, `patient_no`, `patient_name`, " \
-            + "`mobile`, `dingxing`, `dingbing`, `dingzheng`, `comment`, " + "`suitnum`, `json_id`) VALUES " \
-            + " ( '"+ caseObj['case_no'] + "', '" + str(temp_p_id) +"', '" + patientObj['patient_no']  \
-            + "', '" + patientObj['name'] + "', '"+ patientObj['phone_no'] + "', '" + caseObj['dingxing']  \
+      #print "aaa"
+      sql4 = "INSERT INTO `t_recipe` ( `recipe_no`, `patient_id`, `patient_no`, " \
+            + "`patient_name`, `mobile`, `age`, `sex`, `patient_comment`, " \
+            + "`dingxing`, `dingbing`, `dingzheng`, `comment`, " + "`suitnum`, `json_id`) VALUES " \
+            + " ( '"+ caseObj['case_no'] + "', '" + "0" +"', '" + str(caseObj['patient_no']) \
+            + "', '" + caseObj['patient_name'] + "', '"+ str(caseObj['mobile']) + "', '" + str(caseObj['age'])  \
+            + "', '" + caseObj['sex'] + "', '"+ caseObj['patient_comment'] + "', '" + caseObj['dingxing']  \
             + "', '"+ caseObj['dingbing'] + "', '"+ caseObj['dingzheng'] +"', '"+ caseObj['comment']  \
             + "', '"+ caseObj['suitnum'] + "', '"+ str(temp_c_json_id) +"' )"
-      #print 'sql4'
+      #print "sql4:" + sql4
       cur.execute(sql4)
       temp_c_id = conn.insert_id()
 
       """  循环插入处方中的药物信息  """
+      #print "bbb"
       itemObjs = caseObj['recipe']
       for i in range(0, len(itemObjs)-1):
         itemObj = itemObjs[i];
-
         sql5 = "INSERT INTO `t_recipe_item` (recipe_id, medicine, count, unit, remark ) VALUES ('" \
               + str(temp_c_id) + "', '" + itemObj['medicine'] + "', '" + str(itemObj['count']) + "', '" \
               + itemObj['unit'] + "', '' )"
-        
+        #print sql5
         cur.execute(sql5)
         
       conn.commit()
@@ -108,11 +107,7 @@ if os.path.exists( jsonfilename) :
   finally:
        file_object.close( )
 else:
-  print "Error : file not exist."
-
-
-
-
+  print "FRT Error : file not exist."
 
 
 
