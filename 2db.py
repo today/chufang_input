@@ -11,9 +11,17 @@ def saveRecipe( recipeObj ):
   patientObj = recipeObj['patients']
   caseObj = recipeObj['case']
 
-  #setDefValue( patientObj, ('patient_no','name','sex','age','phone_no','comment') )
   setDefValue( caseObj, ( 'case_no','mobile','patient_no','patient_name','age','sex','patient_comment','dingxing','dingbing' , 'dingzheng','suitnum','comment') )
   
+  #从处方json数据中拷贝有用的数据到患者json数据中。
+  patientObj['patient_no'] = caseObj['patient_no']
+  patientObj['name'] = caseObj['patient_name']
+  patientObj['sex'] = caseObj['sex']
+  patientObj['age'] = caseObj['age']
+  patientObj['phone_no'] = caseObj['mobile']
+  patientObj['comment'] = caseObj['patient_comment']
+  #setDefValue( patientObj, ('patient_no','name','sex','age','phone_no','comment') )
+
   #caseJson = json.dumps(caseObj, ensure_ascii=False,indent=2)
 
   caseJson = json.dumps(caseObj, ensure_ascii=False)
@@ -25,23 +33,23 @@ def saveRecipe( recipeObj ):
       conn=MySQLdb.connect(host='localhost',user='root',passwd='',port=3306,db='frt', charset='utf8')
       cur=conn.cursor()
       
-      """ json串插入数据库  
+      """ json串插入数据库  """
       sql1 = "insert into t_json (json_string) values ('"+ patientJson + "')"
       cur.execute(sql1)
-      temp_p_json_id = conn.insert_id()    """
+      temp_p_json_id = conn.insert_id()    
       
       sql2 = "insert into t_json (json_string) values ('"+ caseJson + "')"
       cur.execute(sql2)
       temp_c_json_id = conn.insert_id()
 
-      """  患者信息插入数据库  
+      """  患者信息插入数据库  """
       sql3 = "insert into t_patient (patient_no, patient_name, sex, age, mobile, comment, json_id) values " \
-            + "('" + patientObj['patient_no'] + "','" + patientObj['name'] \
-            + "','" + patientObj['sex'] + "','"+patientObj['age'] \
-            + "','"+  patientObj['phone_no'] + "','" \
-            + patientObj['comment'] + "','" + str(temp_p_json_id) +"'); " 
+            + "('" + str(caseObj['patient_no']) + "','" + caseObj['patient_name'] \
+            + "','" + caseObj['sex'] + "','"+str(caseObj['age']) \
+            + "','"+  str(caseObj['mobile']) + "','" \
+            + caseObj['comment'] + "','" + str(temp_p_json_id) +"'); " 
       cur.execute(sql3)
-      temp_p_id = conn.insert_id()     """
+      temp_p_id = conn.insert_id()     
 
       """  处方信息插入数据库  """
       #print "aaa"
