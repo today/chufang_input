@@ -142,9 +142,9 @@
           patient_list.push(p_no);
         }
       }
-      console.log( "#"+patient_list.join(",") + "#");
 
-      process.exec('python fromdb.py "' + patient_list.join(",") + '"' ,
+      var strCmd = 'python fromdb.py "' + patient_list.join(",") + '"';
+      process.exec( strCmd,
         function (error, stdout, stderr) {
           if (error !== null) {
             console.log('exec error: ' + error);
