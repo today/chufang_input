@@ -34,14 +34,14 @@
     <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
     <td>
       <div><form name="form_1"  >
-        病历号:   <input  type="text" id="id_1"  ng-model="newdata.case.patient_no"  style="width:100px"  required />
-        姓名:     <input  type="text" id="id_2"  ng-model="newdata.case.patient_name"       style="width:60px"  required/> 
+        病历号:   <input  type="text" id="id_1"  ng-model="newdata.case.patient_no"  style="width:100px"  required ng-trim="true" />
+        姓名:     <input  type="text" id="id_2"  ng-model="newdata.case.patient_name"       style="width:60px"  required ng-trim="true" /> 
         
 
         <br/>
-        性别:     <input  type="text"  id="id_3"   ng-model="newdata.case.sex"             style="width:20px" autofocus required/>
-        年龄:     <input  type="number"  id="id_4"   ng-model="newdata.case.age"           style="width:30px"  required/>
-        电话:     <input  type="text"  id="id_5"   ng-model="newdata.case.mobile"   style="width:100px" required ng-pattern="/[0-9]/" />
+        性别:     <input  type="text"  id="id_3"   ng-model="newdata.case.sex"             style="width:20px" autofocus required required ng-trim="true" />
+        年龄:     <input  type="number"  id="id_4"   ng-model="newdata.case.age"           style="width:30px"  required required ng-trim="true" />
+        电话:     <input  type="text"  id="id_5"   ng-model="newdata.case.mobile"   style="width:100px" required ng-pattern="/[0-9]/"  required ng-trim="true" />
         <br/>
         备注:     <textarea     id="id_6_skip"   ng-model="newdata.case.patient_comment"      ></textarea>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -49,12 +49,12 @@
         
       </div>
       <div >
-        门诊号:   <input  type="text" id="id_7"   ng-model="newdata.case.case_no" style="width:100px" readonly required />
+        门诊号:   <input  type="text" id="id_7"   ng-model="newdata.case.case_no" style="width:100px" readonly required  required ng-trim="true" />
         
         <br/>
-        定病:     <input  type="text"  id="id_8"   ng-model="newdata.case.dingbing"     style="width:300px"    /><br/>
-        定性:     <input  type="text"  id="id_9"   ng-model="newdata.case.dingxing"     style="width:300px"    /><br/>
-        定症:     <input  type="text"  id="id_10"   ng-model="newdata.case.dingzheng"    style="width:300px"   /><br/>
+        定病:     <input  type="text"  id="id_8"   ng-model="newdata.case.dingbing"     style="width:300px"   required ng-trim="true"  /><br/>
+        定性:     <input  type="text"  id="id_9"   ng-model="newdata.case.dingxing"     style="width:300px"   required ng-trim="true"  /><br/>
+        定症:     <input  type="text"  id="id_10"   ng-model="newdata.case.dingzheng"    style="width:300px"   required ng-trim="true" /><br/>
         备注:     <textarea            id="id_11"   ng-model="newdata.case.comment"      style="width:300px"   ></textarea><br/>
         
         <div style="float:left;">处方:&nbsp;</div>
@@ -63,10 +63,10 @@
 
           <tr ng-repeat="obj in newdata.case.recipe">
             <td>&nbsp; {{$index+1}} &nbsp; </td>
-            <td><input  type="text"    id="{{'id_' + (id_index+($index*3)+1) }}"  ng-model="obj.medicine"   style="width:100px" /></td>
+            <td><input  type="text"    id="{{'id_' + (id_index+($index*3)+1) }}"  ng-model="obj.medicine"   style="width:100px"  required ng-trim="true" /></td>
             <td><input  type="number"  id="{{'id_' + (id_index+($index*3)+2) }}"  ng-model="obj.count"      style="width:40px" 
-            min="1" /></td>
-            <td><input  type="text"    id="{{'id_' + (id_index+($index*3)+3) }}"  ng-model="obj.unit"       style="width:30px"  /></td>
+            min="1"  required ng-trim="true" /></td>
+            <td><input  type="text"    id="{{'id_' + (id_index+($index*3)+3) }}"  ng-model="obj.unit"       style="width:30px"   required ng-trim="true" /></td>
             
           </tr>
           <tr><td colspan="4">
@@ -77,7 +77,7 @@
         <div >
 
         
-        抓药数量:  <input  type="text"  id="id_0"   ng-model="newdata.case.suitnum"      style="width:75px"    required/>
+        抓药数量:  <input  type="text"  id="id_0"   ng-model="newdata.case.suitnum"      style="width:75px"    required required ng-trim="true" />
         
         </div>
         <div>
