@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>福润堂 患者信息导出</title>
+  
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <script type="text/javascript" src="lib/angular.js"></script>
+ 
+</head>
+<body ng-app="exportApp" ng-controller="Ctrl">
+  <h1 style="">福润堂<a href="index.html" style="float:right">导航页</a></h1> 
+  
+  <div style="float:left;width:600px;">
+    <h2 style="">患者信息导出
+    <br>
+    <button   ng-click="export()" style="float:right;" > 导出患者信息 </button>
+    </h2>
+    <br>
+    
+    
+    </div>
+  
+<script type="text/javascript">
+  
+  var exportApp = angular.module('exportApp', []);
+
+  function Ctrl($scope) {
+    var process = require('child_process');
+    var os = require('os');
+
+    $scope.export = function() {
+      
+      var strCmd = 'python dumpCustomer.py' ;
+      process.exec( strCmd,
+        function (error, stdout, stderr) {
+          if (error !== null) {
+            console.log('exec error: ' + error);
+            // 显示操作失败消息。
+          }
+          console.log('stdout: ' + stdout);
+          // 显示操作成功消息。
+      });
+    };
+
+  }
+  
+
+  </script>
+</body>
+</html>
+
+
+
+

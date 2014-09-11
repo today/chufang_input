@@ -5,16 +5,15 @@ import MySQLdb
 import os
 import shutil
 import sys
+import mydb
 
 def dumpToJson( ):
   bigJson = ""
   try:
-      conn=MySQLdb.connect(host='localhost',user='root',passwd='',port=3306,db='frt', charset='utf8')
-      cur=conn.cursor( cursorclass=MySQLdb.cursors.DictCursor )
+      conn = mydb.getConn()
+      cur = conn.cursor( cursorclass=MySQLdb.cursors.DictCursor )
       cur.execute('SELECT * FROM t_customer ORDER BY id DESC ')
       rs = cur.fetchall()
-      
-        
       bigJson = json.dumps(rs, ensure_ascii=False,indent=2)
       cur.close()
       conn.close()
@@ -25,18 +24,11 @@ def dumpToJson( ):
   return bigJson
 
 
-
-
 if len(sys.argv) != 1 :
   print 'usage: python dumpCustomer.py '
   exit()
 
-# 
-
-
 all_json =  dumpToJson(  )
-
-
 
 """  将字符串写入文件  """
 json_file = codecs.open('./allCustomer.json','w','utf-8')
