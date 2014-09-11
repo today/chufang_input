@@ -33,3 +33,5 @@ node_modules
 *.jpg
 
 *.json
+
+*.pyc
