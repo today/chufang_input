@@ -16,7 +16,7 @@ def getPatientJson( patientNo ):
   
   """ 取出病人信息  """
   sql1 = "select * from t_customer where  patient_no='"+ patientNo + "' order by id desc"
-  print sql1  
+  #print sql1  
   cur.execute(sql1)
   result=cur.fetchone()
   bigJson = json.dumps(result, ensure_ascii=False,indent=2)
@@ -29,5 +29,5 @@ def getPatientJson( patientNo ):
 
 
 
-print getPatientJson( '07557' )
+#print getPatientJson( '07557' )
 

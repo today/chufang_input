@@ -18,7 +18,7 @@ def getRecipe( p_no  ):
       
       """ 取出病历信息的 Json_id  """
       sql2 = "select json_id from t_recipe where  patient_no='"+ p_no + "' order by id desc"
-      print sql2
+      #print sql2
       cur.execute(sql2)
       allResult=cur.fetchall()
       """ 循环取出每一份病历的json串  """
@@ -45,7 +45,7 @@ def getRecipe( p_no  ):
       cur.close()
       conn.close()
 
-      print bigJson 
+      #print bigJson 
    
   except MySQLdb.Error,e:
      print "Mysql Error %d: %s" % (e.args[0], e.args[1])
