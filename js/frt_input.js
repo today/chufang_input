@@ -67,16 +67,3 @@ function getSavedCases(){
 	return getJson2obj('data/saved_cases.json');
 }
 
-/*  连接Mysql数据库   */
-function getConn(){
-	
-	var conn = mysql.createConnection({
-	    host: 'localhost',
-	    user: 'root',
-	    password: '',
-	    database:'frt',
-	    port: 3306,
-	    multipleStatements: true
-	});
-	return conn;
-}
