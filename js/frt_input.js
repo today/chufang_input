@@ -1,5 +1,4 @@
 var fs = require('fs');
-var mysql = require('mysql');
 
 function getYMD( aDate ){
 	var year = aDate.getFullYear();
