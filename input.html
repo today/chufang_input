@@ -34,28 +34,30 @@
     <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
     <td>
       <div><form name="form_1"  >
-        病历号:   <input  type="text" id="id_1"  ng-model="newdata.case.patient_no"  style="width:100px"  required ng-trim="true" />
-        姓名:     <input  type="text" id="id_2"  ng-model="newdata.case.patient_name"       style="width:60px"  required ng-trim="true" /> 
-        
+        病历号:   <input  type="text"   ng-model="newdata.case.patient_no"  style="width:100px"  required />
+        姓名:     <input  type="text"   ng-model="newdata.case.patient_name"       style="width:60px"  required/> 
 
         <br/>
-        性别:     <input  type="text"  id="id_3"   ng-model="newdata.case.sex"             style="width:20px" autofocus required required ng-trim="true" />
-        年龄:     <input  type="number"  id="id_4"   ng-model="newdata.case.age"           style="width:30px"  required required ng-trim="true" />
-        电话:     <input  type="text"  id="id_5"   ng-model="newdata.case.mobile"   style="width:100px" required ng-pattern="/[0-9]/"  required ng-trim="true" />
+        性别:     <input  type="text"     ng-model="newdata.case.sex"             style="width:20px"  />
+        年龄:     <input  type="number"     ng-model="newdata.case.age"           style="width:30px"  />
+        电话:     <input  type="text"     ng-model="newdata.case.mobile"   style="width:100px" ng-pattern="/[0-9]/" />
         <br/>
-        备注:     <textarea     id="id_6_skip"   ng-model="newdata.case.patient_comment"      ></textarea>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        备注:     <textarea        ng-model="newdata.case.patient_comment"      ></textarea>
+        &nbsp;&nbsp;&nbsp;&nbsp;
 
         
       </div>
       <div >
-        门诊号:   <input  type="text" id="id_7"   ng-model="newdata.case.case_no" style="width:100px" readonly required  required ng-trim="true" />
-        
+        门诊号:   <input  type="text"   ng-model="newdata.case.case_no" style="width:100px" readonly required />
         <br/>
-        定病:     <input  type="text"  id="id_8"   ng-model="newdata.case.dingbing"     style="width:300px"   required ng-trim="true"  /><br/>
-        定性:     <input  type="text"  id="id_9"   ng-model="newdata.case.dingxing"     style="width:300px"   required ng-trim="true"  /><br/>
-        定症:     <input  type="text"  id="id_10"   ng-model="newdata.case.dingzheng"    style="width:300px"   required ng-trim="true" /><br/>
-        备注:     <textarea            id="id_11"   ng-model="newdata.case.comment"      style="width:300px"   ></textarea><br/>
+        医生姓名:   <input  type="text"   ng-model="newdata.case.doctor_name" style="width:100px"  required />
+        <input  type="button"  value="马老师" ng-click="doctor_ma()" />
+        <input  type="button"  value="张老师" ng-click="doctor_zhang()" />
+        <br/>
+        定病:     <input  type="text"  id="id_1"   ng-model="newdata.case.dingbing"     style="width:300px"   autofocus /><br/>
+        定性:     <input  type="text"  id="id_2"   ng-model="newdata.case.dingxing"     style="width:300px"    /><br/>
+        定症:     <input  type="text"  id="id_3"   ng-model="newdata.case.dingzheng"    style="width:300px"   /><br/>
+        备注:     <textarea            id="id_4"   ng-model="newdata.case.comment"      style="width:300px"   ></textarea><br/>
         
         <div style="float:left;">处方:&nbsp;</div>
         <table border="1" >
@@ -63,10 +65,10 @@
 
           <tr ng-repeat="obj in newdata.case.recipe">
             <td>&nbsp; {{$index+1}} &nbsp; </td>
-            <td><input  type="text"    id="{{'id_' + (id_index+($index*3)+1) }}"  ng-model="obj.medicine"   style="width:100px"  required ng-trim="true" /></td>
+            <td><input  type="text"    id="{{'id_' + (id_index+($index*3)+1) }}"  ng-model="obj.medicine"   style="width:100px" /></td>
             <td><input  type="number"  id="{{'id_' + (id_index+($index*3)+2) }}"  ng-model="obj.count"      style="width:40px" 
-            min="0"  required ng-trim="true" /></td>
-            <td><input  type="text"    id="{{'id_' + (id_index+($index*3)+3) }}"  ng-model="obj.unit"       style="width:30px"   required ng-trim="true" /></td>
+            min="0" /></td>
+            <td><input  type="text"    id="{{'id_' + (id_index+($index*3)+3) }}"  ng-model="obj.unit"       style="width:30px"  /></td>
             
           </tr>
           <tr><td colspan="4">
@@ -77,7 +79,7 @@
         <div >
 
         
-        抓药数量:  <input  type="text"  id="id_0"   ng-model="newdata.case.suitnum"      style="width:75px"    required required ng-trim="true" />
+        抓药数量:  <input  type="text"  id="id_0"   ng-model="newdata.case.suitnum"      style="width:75px"    required/>
         
         </div>
         <div>
@@ -108,7 +110,7 @@
     $scope.newdata.case = {};
     $scope.flag_save_sucess = false;
 
-    $scope.id_index = 11;
+    $scope.id_index = 4;
 
     $scope.new_photos = [];
     var url_param = location.href.substring(location.href.indexOf("?")+1);
@@ -119,6 +121,7 @@
     $scope.newdata.case.patient_name = decodeURI(params[2]);
     $scope.newdata.case.mobile = params[3];
     $scope.newdata.case.patient_comment = decodeURI(params[4]);
+    $scope.newdata.case.doctor_name = "张耀";
     //$scope.$apply(); 
 
     for( i=5; i<params.length; i++ ){
@@ -133,7 +136,7 @@
     $scope.newdata.case.recipe = [];
     $scope.addRecipeItem = function( lineNum ){
       for(i=1;i<(lineNum+1);i++){
-        tempObj = new Object();
+        tempObj = {};
         tempObj.index_id=i;
         tempObj.medicine="";
         tempObj.count=0;
@@ -143,10 +146,17 @@
         $scope.newdata.case.recipe.push(tempObj);
         //console.log(JSON.stringify(tempObj));
       }
-    }
+    };
     $scope.addRecipeItem(20);
-    
 
+    $scope.doctor_zhang = function(  ){
+      $scope.newdata.case.doctor_name = "张耀";
+    };
+
+    $scope.doctor_ma = function(  ){
+      $scope.newdata.case.doctor_name = "马永泽";
+    };
+    
     $scope.saveCase = function() {
       if ($scope.form_1.$valid) {
         //alert('输入正确。');
@@ -189,7 +199,7 @@
       $scope.old_show = false;
 
       var database = {};
-      var strFilename = "data/database.json"
+      var strFilename = "data/database.json";
       if(fs.existsSync( strFilename) ){
         var strBookingList = fs.readFileSync(strFilename);
         database = JSON.parse(strBookingList);
@@ -232,19 +242,19 @@
       $scope.newdata.case.comment = "987654 xyzabc";
       $scope.newdata.case.suitnum = "15";
 
-      tempObj=new Object();
+      tempObj={};
       tempObj.medicine="山楂";
       tempObj.count=10;
       tempObj.unit="克";
       $scope.newdata.case.recipe[0] = tempObj;
 
-      tempObj=new Object();
+      tempObj={};
       tempObj.medicine="陈皮";
       tempObj.count=10;
       tempObj.unit="克";
       $scope.newdata.case.recipe[1] = (tempObj);
 
-      tempObj=new Object();
+      tempObj={};
       tempObj.medicine="萝卜";
       tempObj.count=20;
       tempObj.unit="克";
@@ -260,7 +270,7 @@
     // 这一段是用来显示隐藏debug区的。
     if (keynum==192){
       
-      if( debug_flag == 0 ){
+      if( debug_flag === 0 ){
         debug_flag++;
       }else if(debug_flag == 1 ){
         debug_flag++;
@@ -296,9 +306,9 @@
           }
           
           // loop to 0
-          obj = document.getElementById( 'id_0' );
-          obj.focus();
-          obj.select();
+          var obj2 = document.getElementById( 'id_0' );
+          obj2.focus();
+          obj2.select();
           
         }
         else{
